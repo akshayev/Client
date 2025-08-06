@@ -3,6 +3,8 @@ import { ToastContainer } from 'react-toastify'
 
 import About from './pages/About.jsx'
 import Home from './pages/Home.jsx'
+import Navbar from './componets/Navbar.jsx'
+import Footer from './componets/Footer.jsx'
 
 
 function App() {
@@ -10,12 +12,16 @@ function App() {
   return (
     <div className='w-full'>
 
+      <Navbar />
+
       <ToastContainer />
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
       </Routes>
+
+      <Footer />
 
     </div>
   )
