@@ -1,10 +1,32 @@
-import React from 'react'
 
-const Home = () => {
+import Nav from "../componets/Navbar"
+import Gallery from "../componets/Gallery"
+import Join from "../componets/Join"
+import Testimonials from "../componets/Testimonials"
+import Hero from "../componets/Hero"
+import Event from "../componets/Event"
+import Team from "../componets/Team"
+import AboutSection from "../componets/About"
+import SocialFeed from "../componets/SocialFeed"
+
+function Home() {
   return (
-    <div>
-      Home Page
-      <p>Welcome to our website! Explore our features and learn more about us.</p>
+    <div className="font-sans antialiased text-gray-900 ">
+      <div className="bg-black text-white">
+        <Nav />
+        <div className="bg-stone-900 text-white font-sans">
+          <Hero />
+          <div id="work" className="min-h-screen text-center">
+            <AboutSection />
+            <Gallery />
+            <Event />
+            <Team />
+            <Testimonials />
+            <SocialFeed />
+            <Join />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

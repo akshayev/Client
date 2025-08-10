@@ -13,7 +13,7 @@ function App() {
     <div className='w-full'>
 
       <Navbar />
-
+      
       <ToastContainer />
 
       <Routes>
