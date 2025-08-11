@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
-import About from './pages/About.jsx'
+import AboutPage from './pages/About.jsx'
 import Home from './pages/Home.jsx'
 import Navbar from './componets/Navbar.jsx'
 import Footer from './componets/Footer.jsx'
@@ -18,7 +18,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
 
       <Footer />

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // --- Data for Nav Links ---
 const navLinks = [
-  { title: 'About', href: '#about' },
+  { title: 'About', href: 'about' },
   { title: 'Works', href: '#works' },
   { title: 'Join', href: '#join' },
 ];
@@ -39,7 +39,7 @@ const MobileMenu = ({ links, isOpen, setIsOpen }) => (
             </motion.a>
           ))}
            <motion.button 
-             className="mt-4 border border-white/30 px-6 py-2 rounded-full text-lg font-medium backdrop-blur-sm transition-all duration-200 hover:bg-white/20"
+             className="mt-4 border border-white/30 px-6 py-2 rounded-full text-lg font-medium backdrop-blur-sm transition-all duration-200 hover:bg-white/20 text-white"
              initial={{ y: -20, opacity: 0 }}
              animate={{ y: 0, opacity: 1 }}
              transition={{ delay: 0.3 + links.length * 0.1 }}
@@ -67,7 +67,7 @@ const Nav = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 p-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 p-4 text-white">
         <motion.div
           className="max-w-7xl mx-auto flex items-center justify-between rounded-full px-6 py-3 transition-all duration-300 ease-in-out"
           animate={{
@@ -83,7 +83,7 @@ const Nav = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            CUCEK PHOTOGRAPHY CLUB
+            <a href="/">CUCEK PHOTOGRAPHY CLUB</a>
           </motion.div>
 
           {/* --- THE FIX IS HERE --- */}
