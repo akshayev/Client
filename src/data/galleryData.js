@@ -56,42 +56,42 @@ export const galleryData = [
     description: 'Sunbeams piercing through the canopy of a lush, green forest.'
   },
   {
-    id: 'g8',
+    id: 'g9',
     category: 'Nature',
     title: 'Forest Light',
     src: 'https://cdn.pixabay.com/photo/2020/06/14/15/31/leaf-5298312_1280.jpg',
     description: 'Sunbeams piercing through the canopy of a lush, green forest.'
   },
   {
-    id: 'g8',
+    id: 'g10',
     category: 'Nature',
     title: 'Forest Light',
     src: 'https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832_1280.jpg',
     description: 'Sunbeams piercing through the canopy of a lush, green forest.'
   },
   {
-    id: 'g8',
+    id: 'g11',
     category: 'Nature',
     title: 'Forest Light',
     src: 'https://cdn.pixabay.com/photo/2025/06/02/21/36/cat-9637984_1280.jpg',
     description: 'Sunbeams piercing through the canopy of a lush, green forest.'
   },
   {
-    id: 'g8',
+    id: 'g12',
     category: 'Nature',
     title: 'Forest Light',
     src: 'https://cdn.pixabay.com/photo/2024/12/29/00/12/dog-9297049_1280.jpg',
     description: 'Sunbeams piercing through the canopy of a lush, green forest.'
   },
     {
-    id: 'g8',
+    id: 'g13',
     category: 'Nature',
     title: 'Forest Light',
     src: 'https://cdn.pixabay.com/photo/2025/06/12/07/37/cow-lake-9655657_1280.jpg',
     description: 'Sunbeams piercing through the canopy of a lush, green forest.'
   },
   {
-    id: 'g8',
+    id: 'g14',
     category: 'Nature',
     title: 'Forest Light',
     src: 'https://cdn.pixabay.com/photo/2025/04/22/14/51/flowers-9550386_1280.png',

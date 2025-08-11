@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 // --- Data for Nav Links ---
 const navLinks = [
   { title: 'About', href: 'about' },
-  { title: 'Works', href: '#works' },
-  { title: 'Join', href: '#join' },
+  { title: 'Works', href: 'gallery' },
+  { title: 'Join', href: 'join' },
 ];
 
 // --- Mobile Menu Component (Unchanged) ---
