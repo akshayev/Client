@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { testimonialsData } from '../data/testimonialsData'; // Import your data
+import { testimonialsData } from '../../data/testimonialsData'; // Import your data
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const Testimonials = () => {

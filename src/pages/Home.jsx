@@ -1,12 +1,12 @@
 
-import Gallery from "../componets/Gallery"
-import Join from "../componets/Join"
-import Testimonials from "../componets/Testimonials"
-import Hero from "../componets/Hero"
-import Event from "../componets/Event"
-import Team from "../componets/Team"
-import AboutSection from "../componets/About"
-import SocialFeed from "../componets/SocialFeed"
+import Gallery from "../componets/home/Gallery"
+import Join from "../componets/home/Join"
+import Testimonials from "../componets/home/Testimonials"
+import Hero from "../componets/home/Hero"
+import Event from "../componets/home/Event"
+import Team from "../componets/home/Team"
+import AboutSection from "../componets/home/About"
+import SocialFeed from "../componets/home/SocialFeed"
 
 function Home() {
   return (

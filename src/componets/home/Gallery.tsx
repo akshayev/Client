@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { galleryData, filterCategories } from '../data/galleryData'; // Import data
+import { galleryData, filterCategories } from '../../data/galleryData'; // Import data
 import { FiX, FiArrowRight } from "react-icons/fi";
 
 // --- Gallery Item Component (Unchanged) ---

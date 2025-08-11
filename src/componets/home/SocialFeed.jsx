@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { socialFeedData } from '../data/socialFeedData';
+import { socialFeedData } from '../../data/socialFeedData';
 import { FaInstagram, FaArrowRight } from 'react-icons/fa';
 
 // The URL to your club's main Instagram profile
