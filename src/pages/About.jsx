@@ -1,12 +1,23 @@
-import React from 'react'
+// src/pages/AboutPage.js
+import React from 'react';
 
-const About = () => {
+// Adjust the import path based on your file structure
+import HeroSection from '../componets/about/HeroSection';
+import PhilosophySection from '../componets/about/PhilosophySection';
+import CollectiveSection from '../componets/about/CollectiveSection';
+import StatsSection from '../componets/about/StatsSection';
+import JoinSection from '../componets/about/JoinSection';
+
+const AboutPage = () => {
   return (
-    <div>
-      <h1>About Us</h1>
-      <p>We are a company that values excellence and innovation.</p>
+    <div className="bg-black">
+      <HeroSection />
+      <PhilosophySection />
+      <CollectiveSection />
+      <StatsSection />
+      <JoinSection />
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default AboutPage;

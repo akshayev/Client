@@ -1,10 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 
-import About from './pages/About.jsx'
 import Home from './pages/Home.jsx'
-import Navbar from './componets/Navbar.jsx'
+import AboutPage from './pages/About.jsx'
+import Nav from './componets/Navbar.jsx'
 import Footer from './componets/Footer.jsx'
+import Gallery from './pages/GalleryPage.jsx'
+import JoinPage from './pages/JoinPage.jsx'
+import AdminPage from './pages/AdminPage.jsx'
 
 
 function App() {
@@ -12,13 +15,17 @@ function App() {
   return (
     <div className='w-full'>
 
-      <Navbar />
+      <Nav /> 
 
       <ToastContainer />
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/join" element={<JoinPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+
       </Routes>
 
       <Footer />
