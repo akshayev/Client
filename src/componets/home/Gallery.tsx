@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { galleryData, filterCategories } from '../../data/galleryData'; // Import data
 import { FiX, FiArrowRight } from "react-icons/fi";
+import { galleryApi } from '../../services/api.js'; // Ensure this path is correct
+import { useNavigate } from 'react-router-dom';
 
 // --- Gallery Item Component (Unchanged) ---
 const GalleryItem = ({ item, onSelect }) => (
@@ -49,30 +50,66 @@ const Lightbox = ({ item, onClose }) => (
   </motion.div>
 );
 
-// --- Main Gallery Section Component (MODIFIED) ---
+// --- Main Gallery Section Component (MODIFIED FOR IMAGE LIMIT) ---
 const GallerySection = () => {
+  const [galleryData, setGalleryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [itemsToShow, setItemsToShow] = useState(8);
+  
+  // --- THE CHANGE IS HERE ---
+  // The number of items to show on the homepage is now 10.
+  const itemsToShow = 10;
+  
+  const navigate = useNavigate();
 
-  const filteredItems = useMemo(() => 
-    activeFilter === 'All' 
-      ? galleryData 
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        setLoading(true);
+        const response = await galleryApi.getAll();
+        const items = response.data.data.items || [];
+        const formattedItems = items.map(item => ({
+          ...item,
+          src: item.imageUrl
+        }));
+        
+        setGalleryData(formattedItems);
+        setError(null);
+      } catch (err) {
+        setError('Failed to fetch gallery items.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryData();
+  }, []);
+
+  const filterCategories = useMemo(() => {
+    if (galleryData.length === 0) return [];
+    const categories = new Set(galleryData.map(item => item.category));
+    return ['All', ...Array.from(categories)];
+  }, [galleryData]);
+
+  const filteredItems = useMemo(() =>
+    activeFilter === 'All'
+      ? galleryData
       : galleryData.filter(item => item.category === activeFilter),
-    [activeFilter]
+    [activeFilter, galleryData]
   );
   
-  useEffect(() => {
-      setItemsToShow(8);
-  }, [activeFilter]);
-
+  // Slices the first 10 items to display
   const visibleItems = filteredItems.slice(0, itemsToShow);
-  const hasMore = itemsToShow < filteredItems.length;
+  
+  // Determines if there are more items than the limit, to show the button
+  const hasMore = filteredItems.length > itemsToShow;
 
   return (
     <section id="works" className="bg-black text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Section Title & Filters (Unchanged) */}
         <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4" initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
           Our Work
         </motion.h2>
@@ -85,8 +122,8 @@ const GallerySection = () => {
                     key={cat}
                     onClick={() => setActiveFilter(cat)}
                     className={`px-4 py-2 text-sm md:text-base rounded-full font-semibold transition-colors
-                        ${activeFilter === cat 
-                        ? 'bg-white text-black' 
+                        ${activeFilter === cat
+                        ? 'bg-white text-black'
                         : 'bg-zinc-800 text-white hover:bg-zinc-700'}`
                     }
                 >
@@ -95,28 +132,29 @@ const GallerySection = () => {
             ))}
         </div>
 
+        {loading && <div className="text-center">Loading gallery...</div>}
+        {error && <div className="text-center text-red-500">{error}</div>}
+
         <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-6">
           <AnimatePresence>
-            {visibleItems.map(item => (
+            {!loading && !error && visibleItems.map(item => (
               <div key={item.id} className="mb-4 md:mb-6 break-inside-avoid">
                 <GalleryItem item={item} onSelect={setSelectedItem} />
               </div>
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {/* --- THE FIX IS HERE --- */}
-        {/* Changed `text-center` to `flex justify-center` for robust centering. */}
+        
         {hasMore && (
             <div className="flex justify-center mt-12">
                 <motion.button
-                    onClick={() => setItemsToShow(filteredItems.length)}
+                    onClick={() => navigate('/gallery')}
                     className="group flex items-center justify-center gap-2 bg-zinc-800 text-white px-6 py-3 rounded-full font-semibold hover:bg-zinc-700 transition-colors"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <span>Show More</span>
+                    <span>View Full Gallery</span> 
                     <FiArrowRight className="transition-transform group-hover:translate-x-1" />
                 </motion.button>
             </div>

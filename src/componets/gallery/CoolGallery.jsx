@@ -1,8 +1,8 @@
-// src/components/gallery/CoolGallery.js
-import React, { useState, useRef, useLayoutEffect } from 'react';
+// src/components/gallery/CoolGallery.jsx
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useMotionTemplate } from 'framer-motion';
 
-import { galleryData } from '../../data/galleryData'; // Adjust path if needed
+import { galleryApi } from '../../services/api.js'; // Adjust path if needed
 import ImageCard from './ImageCard';
 import ExpandedImageView from './ExpandedImageView';
 
@@ -14,6 +14,11 @@ const SPRING_OPTIONS = {
 };
 
 const CoolGallery = () => {
+  // --- STATE FOR API DATA ---
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const containerRef = useRef(null);
   const [dragConstraints, setDragConstraints] = useState({ right: 0, left: 0 });
@@ -22,6 +27,34 @@ const CoolGallery = () => {
   const mouseY = useMotionValue(0);
   const dragX = useMotionValue(0);
   const dragXSpring = useSpring(dragX, SPRING_OPTIONS);
+
+  // --- DATA FETCHING EFFECT ---
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        setLoading(true);
+        const response = await galleryApi.getAll();
+        const items = response.data.data.items || [];
+
+        // Format API data to match component props (imageUrl -> src) and add a unique ID
+        const formattedItems = items.map((item, index) => ({
+          ...item,
+          src: item.imageUrl,
+          uniqueId: `${item.id}-${index}`, // Keep uniqueId for framer-motion's layoutId
+        }));
+        
+        setImages(formattedItems);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load the gallery. Please try again later.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryData();
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const handleMouseMove = ({ clientX, clientY, currentTarget }) => {
     const { left, top } = currentTarget.getBoundingClientRect();
@@ -39,9 +72,10 @@ const CoolGallery = () => {
   
   const parallaxX = useTransform(dragXSpring, [-1000, 1000], [-150, 150]);
 
+  // Recalculate drag constraints when images are loaded
   useLayoutEffect(() => {
     const calculateConstraints = () => {
-      if (containerRef.current) {
+      if (containerRef.current && images.length > 0) {
         const containerWidth = containerRef.current.scrollWidth;
         const viewportWidth = containerRef.current.offsetWidth;
         const maxDrag = containerWidth / 2 - viewportWidth / 2;
@@ -51,13 +85,25 @@ const CoolGallery = () => {
     calculateConstraints();
     window.addEventListener('resize', calculateConstraints);
     return () => window.removeEventListener('resize', calculateConstraints);
-  }, []);
+  }, [images]); // Dependency array ensures this runs after images are set
 
-  const displayImages = galleryData.map((item, index) => ({
-    ...item,
-    uniqueId: `${item.id}-${index}`,
-  }));
-  
+  // --- CONDITIONAL RENDERING FOR LOADING AND ERROR STATES ---
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-neutral-950 text-white font-sans">
+        <p>Loading Gallery...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-neutral-950 text-white font-sans">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+
   return (
     <div 
       onMouseMove={handleMouseMove}
@@ -84,7 +130,8 @@ const CoolGallery = () => {
         style={{ x: dragXSpring }}
         className="relative z-10 h-full flex items-center gap-4 md:gap-8 px-12 cursor-grab active:cursor-grabbing"
       >
-        {displayImages.map((img, idx) => (
+        {/* Render images from state instead of static data */}
+        {images.map((img, idx) => (
           <ImageCard
             key={img.uniqueId} 
             image={img}
