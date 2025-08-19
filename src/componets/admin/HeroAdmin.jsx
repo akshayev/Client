@@ -1,7 +1,8 @@
 import React from 'react';
-import AdminCrudController from './AdminCrudController';
-import AdminInput from './AdminInput';
+import AdminCrudController from './AdminCrudController.jsx';
+import AdminInput from './AdminInput.jsx';
 import { FiImage, FiType, FiFileText, FiEdit, FiTrash2, FiStar } from 'react-icons/fi';
+import { heroApi } from '../../services/api.js';
 
 const HeroListItem = ({ item, onEdit, onDelete }) => (
   <div className="flex items-center justify-between bg-neutral-800 p-4 rounded-lg">
@@ -29,15 +30,22 @@ const HeroForm = ({ currentItem, setCurrentItem }) => (
   </div>
 );
 
-const HeroAdmin = ({ items, setItems }) => (
+const HeroAdmin = ({ items, onDataChange }) => (
   <AdminCrudController
     title="Hero Banners"
     items={items}
-    setItems={setItems}
     FormComponent={HeroForm}
     ListItemComponent={HeroListItem}
     initialFormState={{ id: null, title: '', subtitle: '', imageLink: '' }}
+    api={heroApi}
+    onDataChange={onDataChange}
+    mapToApi={item => ({
+        id: item.id,
+        title: item.title,
+        subtitle: item.subtitle,
+        imageUrl: item.imageLink, // Map to API field name
+    })}
   />
 );
-
 export default HeroAdmin;
+

@@ -1,8 +1,9 @@
 import React from 'react';
-import AdminCrudController from './AdminCrudController';
-import AdminInput from './AdminInput';
-import AdminTextArea from './AdminTextArea';
+import AdminCrudController from './AdminCrudController.jsx';
+import AdminInput from './AdminInput.jsx';
+import AdminTextArea from './AdminTextArea.jsx';
 import { FiType, FiImage, FiLink, FiFileText, FiEdit, FiTrash2, FiCalendar } from 'react-icons/fi';
+import { eventsApi } from '../../services/api.js';
 
 // 1. How a single event is displayed in the list
 const EventListItem = ({ item, onEdit, onDelete }) => (
@@ -35,12 +36,10 @@ const EventForm = ({ currentItem, setCurrentItem }) => (
     </div>
 );
 
-// 3. The main component using the controller
-const EventsAdmin = ({ items, setItems }) => (
+const EventsAdmin = ({ items, onDataChange }) => (
     <AdminCrudController
         title="Events"
         items={items}
-        setItems={setItems}
         FormComponent={EventForm}
         ListItemComponent={EventListItem}
         initialFormState={{
@@ -50,7 +49,17 @@ const EventsAdmin = ({ items, setItems }) => (
             imageLink: '',
             pageLink: ''
         }}
+        api={eventsApi}
+        onDataChange={onDataChange}
+        mapToApi={item => ({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            imageUrl: item.imageLink,
+            pageLink: item.pageLink,
+            // Add a default for required fields not in the form
+            eventDate: item.eventDate || new Date().toISOString(),
+        })}
     />
 );
-
 export default EventsAdmin;
