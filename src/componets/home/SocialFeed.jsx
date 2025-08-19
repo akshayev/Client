@@ -1,25 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { socialFeedData } from '../../data/socialFeedData';
+import { instagramApi } from '../../services/api.js'; // Adjust path if necessary
 import { FaInstagram, FaArrowRight } from 'react-icons/fa';
 
 // The URL to your club's main Instagram profile
 const instagramProfileUrl = 'https://www.instagram.com/cucekphotographyclub'; // <-- IMPORTANT: CHANGE THIS
 
-// --- Individual Feed Item Component (Enhanced) ---
+// --- Individual Feed Item Component (No changes needed here) ---
 const FeedItem = ({ item }) => {
   const itemVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.9 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
+    visible: {
+      opacity: 1,
+      y: 0,
       scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 150,
-        damping: 15,
-        mass: 0.5
-      }
+      transition: { type: 'spring', stiffness: 150, damping: 15, mass: 0.5 }
     }
   };
 
@@ -30,16 +25,16 @@ const FeedItem = ({ item }) => {
       rel="noopener noreferrer"
       className="relative block w-full rounded-lg overflow-hidden group shadow-lg"
       variants={itemVariants}
-      layout // This prop is key for animating layout changes!
+      layout
     >
       <motion.img
         src={item.imageUrl}
-        alt={item.alt}
+        alt={item.caption || 'Instagram post'} // Use caption for alt text, with a fallback
         className="w-full h-full object-cover"
         whileHover={{ scale: 1.1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       />
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 flex flex-col justify-end"
         initial={{ opacity: 0 }}
         whileHover={{ opacity: 1 }}
@@ -54,29 +49,93 @@ const FeedItem = ({ item }) => {
   );
 };
 
-// --- Main Social Feed Section (Enhanced) ---
+
+// --- Main Social Feed Section (Enhanced with API logic) ---
 const SocialFeed = () => {
+  // State for API data, loading, and errors
+  const [feedItems, setFeedItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch data when the component mounts
+  useEffect(() => {
+    const fetchFeed = async () => {
+      try {
+        const response = await instagramApi.getAll();
+        // Assuming the data array is nested under response.data.data, like the testimonials API
+        if (response.data && Array.isArray(response.data.data)) {
+            setFeedItems(response.data.data);
+        } else {
+            throw new Error("Invalid data format received from the API.");
+        }
+      } catch (err) {
+        setError('Could not load the Instagram feed.');
+        console.error("API Error fetching Instagram feed:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchFeed();
+  }, []); // Empty dependency array ensures this runs only once
+
   const containerVariants = {
     hidden: {},
     visible: {
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
     },
   };
-  
-  // Create columns for a masonry layout
-  const numColumns = 4; // Adjust for responsiveness if needed
+
+  // Create columns for a masonry layout from the fetched feedItems
+  const numColumns = 4;
   const columns = Array.from({ length: numColumns }, () => []);
-  socialFeedData.forEach((item, i) => {
-    columns[i % numColumns].push(item);
-  });
+  
+  // This check is important: only process feedItems if it's an array
+  if (Array.isArray(feedItems)) {
+    feedItems.forEach((item, i) => {
+        columns[i % numColumns].push(item);
+    });
+  }
+
+  // --- Render content based on loading/error state ---
+  const renderContent = () => {
+    if (loading) {
+      return <p className="text-gray-400">Loading feed...</p>;
+    }
+
+    if (error) {
+      return <p className="text-red-500">{error}</p>;
+    }
+
+    if (feedItems.length === 0) {
+      return <p className="text-gray-400">No Instagram posts to display right now.</p>;
+    }
+
+    // Main content when data is available
+    return (
+      <motion.div
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        {columns.map((col, i) => (
+          <div key={i} className="flex flex-col gap-4 md:gap-6">
+            {col.map(item => (
+              <FeedItem key={item.id} item={item} />
+            ))}
+          </div>
+        ))}
+      </motion.div>
+    );
+  };
+
 
   return (
     <section className="bg-black text-white py-24 sm:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.h2 
+        <motion.h2
           className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 tracking-tight"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -92,25 +151,11 @@ const SocialFeed = () => {
           viewport={{ once: true, amount: 0.7 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Glimpses from the field, behind the scenes, and our community's best work. 
+          Glimpses from the field, behind the scenes, and our community's best work.
           Catch the latest on our Instagram.
         </motion.p>
         
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
-          {columns.map((col, i) => (
-            <div key={i} className="flex flex-col gap-4 md:gap-6">
-              {col.map(item => (
-                <FeedItem key={item.id} item={item} />
-              ))}
-            </div>
-          ))}
-        </motion.div>
+        {renderContent()}
 
         <motion.a
           href={instagramProfileUrl}
