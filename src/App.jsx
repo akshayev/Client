@@ -8,6 +8,10 @@ import Footer from './componets/Footer.jsx'
 import Gallery from './pages/GalleryPage.jsx'
 import JoinPage from './pages/JoinPage.jsx'
 import AdminPage from './pages/AdminPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
+
+import { AuthProvider } from './context/AuthContext.jsx';
+import ProtectedRoute from './componets/admin/ProtectedRoute.jsx';
 
 
 function App() {
@@ -19,14 +23,19 @@ function App() {
 
       <ToastContainer />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/join" element={<JoinPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+      <AuthProvider>
 
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/join" element={<JoinPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+
+        </Routes>
+
+      </AuthProvider>
 
       <Footer />
 

@@ -1,55 +1,84 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion,AnimatePresence } from 'framer-motion';
 import { FiPlus, FiX } from 'react-icons/fi';
-import { v4 as uuidv4 } from 'uuid';
 
 const AdminCrudController = ({
   title,
   items,
-  setItems,
   FormComponent,
   ListItemComponent,
-  initialFormState
+  initialFormState,
+  api, // The specific API service (e.g., heroApi, teamApi)
+  onDataChange, // Function to refetch data after a change
+  mapToApi, // Optional function to map frontend state to API format
 }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(initialFormState);
   const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddNew = () => {
     setIsEditing(false);
-    setCurrentItem({ ...initialFormState, id: uuidv4() }); // Assign a temporary unique ID
+    setCurrentItem(initialFormState);
     setIsFormVisible(true);
+    setError(null);
   };
 
   const handleEdit = (item) => {
     setIsEditing(true);
-    setCurrentItem(item);
+    // Use the spread to avoid directly mutating the original item from the list
+    setCurrentItem({ ...item });
     setIsFormVisible(true);
+    setError(null);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
-      setItems(items.filter(item => item.id !== id));
+      try {
+        setIsLoading(true);
+        await api.delete(id);
+        onDataChange(); // Refetch data
+      } catch (err) {
+        console.error('Failed to delete item:', err);
+        setError('Failed to delete item. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
-  const handleSave = () => {
-    if (isEditing) {
-      // Update existing item
-      setItems(items.map(item => (item.id === currentItem.id ? currentItem : item)));
-    } else {
-      // Add new item
-      setItems([currentItem, ...items]);
+  const handleSave = async () => {
+    setError(null);
+    setIsLoading(true);
+
+    // If a mapping function is provided, use it. Otherwise, use the item as is.
+    const dataToSave = mapToApi ? mapToApi(currentItem) : currentItem;
+
+    try {
+      if (isEditing) {
+        // The API needs the ID for the endpoint, but not in the body
+        const { id, ...updateData } = dataToSave;
+        await api.update(id, updateData);
+      } else {
+        await api.create(dataToSave);
+      }
+      onDataChange(); // Refetch data
+      handleCloseForm();
+    } catch (err) {
+      console.error('Failed to save item:', err);
+      const errorMessage = err.response?.data?.message || 'An unknown error occurred.';
+      setError(`Failed to save: ${errorMessage}`);
+    } finally {
+      setIsLoading(false);
     }
-    // In a real app, you would now sync with your backend API
-    console.log('Saving item:', currentItem);
-    handleCloseForm();
   };
 
   const handleCloseForm = () => {
     setIsFormVisible(false);
     setIsEditing(false);
     setCurrentItem(initialFormState);
+    setError(null);
   };
 
   const formVariants = {
@@ -83,12 +112,14 @@ const AdminCrudController = ({
               <h4 className="font-semibold text-lg">{isEditing ? 'Edit Item' : 'Add New Item'}</h4>
               <button onClick={handleCloseForm} className="text-neutral-500 hover:text-white"><FiX /></button>
             </div>
+            {error && <div className="bg-red-900/50 border border-red-500 text-red-300 p-3 rounded-md mb-4 text-sm">{error}</div>}
             <FormComponent currentItem={currentItem} setCurrentItem={setCurrentItem} />
             <button
               onClick={handleSave}
-              className="mt-6 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+              disabled={isLoading}
+              className="mt-6 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-neutral-600 disabled:cursor-not-allowed"
             >
-              {isEditing ? 'Update Item' : 'Save New Item'}
+              {isLoading ? 'Saving...' : (isEditing ? 'Update Item' : 'Save New Item')}
             </button>
           </motion.div>
         )}

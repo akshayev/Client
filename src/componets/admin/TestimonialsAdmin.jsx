@@ -1,8 +1,9 @@
 import React from 'react';
-import AdminCrudController from './AdminCrudController';
-import AdminInput from './AdminInput';
-import AdminTextArea from './AdminTextArea';
+import AdminCrudController from './AdminCrudController.jsx';
+import AdminInput from './AdminInput.jsx';
+import AdminTextArea from './AdminTextArea.jsx';
 import { FiUsers, FiImage, FiMessageSquare, FiEdit, FiTrash2 } from 'react-icons/fi';
+import { testimonialsApi } from '../../services/api.js';
 
 // 1. How a single testimonial is displayed in the list
 const TestimonialListItem = ({ item, onEdit, onDelete }) => (
@@ -33,19 +34,22 @@ const TestimonialForm = ({ currentItem, setCurrentItem }) => (
 );
 
 // 3. The main component using the controller
-const TestimonialsAdmin = ({ items, setItems }) => (
+
+const TestimonialsAdmin = ({ items, onDataChange }) => (
     <AdminCrudController
         title="Testimonials"
         items={items}
-        setItems={setItems}
         FormComponent={TestimonialForm}
         ListItemComponent={TestimonialListItem}
-        initialFormState={{
-            id: null,
-            name: '',
-            text: '',
-            imageLink: ''
-        }}
+        initialFormState={{ id: null, name: '', text: '', imageLink: '' }}
+        api={testimonialsApi}
+        onDataChange={onDataChange}
+        mapToApi={item => ({
+            id: item.id,
+            name: item.name,
+            text: item.text,
+            imageUrl: item.imageLink,
+        })}
     />
 );
 
