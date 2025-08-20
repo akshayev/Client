@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import { motion } from 'framer-motion';
 import { instagramApi } from '../../services/api.js'; // Adjust path if necessary
 import { FaInstagram, FaArrowRight } from 'react-icons/fa';
@@ -62,9 +62,11 @@ const SocialFeed = () => {
     const fetchFeed = async () => {
       try {
         const response = await instagramApi.getAll();
-        // Assuming the data array is nested under response.data.data, like the testimonials API
+        
         if (response.data && Array.isArray(response.data.data)) {
-            setFeedItems(response.data.data);
+            // Limit the returned feed items to a maximum of 4.
+            const limitedFeed = response.data.data.slice(0, 4);
+            setFeedItems(limitedFeed);
         } else {
             throw new Error("Invalid data format received from the API.");
         }
@@ -86,18 +88,16 @@ const SocialFeed = () => {
     },
   };
 
-  // Create columns for a masonry layout from the fetched feedItems
+  // This ensures the masonry layout works correctly with a fixed number of items.
   const numColumns = 4;
   const columns = Array.from({ length: numColumns }, () => []);
   
-  // This check is important: only process feedItems if it's an array
   if (Array.isArray(feedItems)) {
     feedItems.forEach((item, i) => {
         columns[i % numColumns].push(item);
     });
   }
 
-  // --- Render content based on loading/error state ---
   const renderContent = () => {
     if (loading) {
       return <p className="text-gray-400">Loading feed...</p>;
@@ -111,7 +111,6 @@ const SocialFeed = () => {
       return <p className="text-gray-400">No Instagram posts to display right now.</p>;
     }
 
-    // Main content when data is available
     return (
       <motion.div
         className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
@@ -130,7 +129,6 @@ const SocialFeed = () => {
       </motion.div>
     );
   };
-
 
   return (
     <section className="bg-black text-white py-24 sm:py-32">
