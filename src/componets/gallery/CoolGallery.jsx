@@ -28,6 +28,9 @@ const CoolGallery = () => {
   const dragX = useMotionValue(0);
   const dragXSpring = useSpring(dragX, SPRING_OPTIONS);
 
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
+
   // --- DATA FETCHING EFFECT ---
   useEffect(() => {
     const fetchGalleryData = async () => {
@@ -56,6 +59,7 @@ const CoolGallery = () => {
     fetchGalleryData();
   }, []); // Empty dependency array ensures this runs only once on mount
 
+  // --- MOUSE MOVE AND PARALLAX EFFECTS ---
   const handleMouseMove = ({ clientX, clientY, currentTarget }) => {
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
@@ -72,7 +76,7 @@ const CoolGallery = () => {
   
   const parallaxX = useTransform(dragXSpring, [-1000, 1000], [-150, 150]);
 
-  // Recalculate drag constraints when images are loaded
+  // --- DRAG CONSTRAINTS CALCULATION ---
   useLayoutEffect(() => {
     const calculateConstraints = () => {
       if (containerRef.current && images.length > 0) {
@@ -85,7 +89,33 @@ const CoolGallery = () => {
     calculateConstraints();
     window.addEventListener('resize', calculateConstraints);
     return () => window.removeEventListener('resize', calculateConstraints);
-  }, [images]); // Dependency array ensures this runs after images are set
+  }, [images]);
+
+  // --- ARROW BUTTON CLICK HANDLERS ---
+  const handlePrev = () => {
+    if (containerRef.current) {
+      const currentX = dragX.get();
+      const newX = Math.min(currentX + containerRef.current.offsetWidth, dragConstraints.right);
+      dragX.set(newX);
+    }
+  };
+
+  const handleNext = () => {
+    if (containerRef.current) {
+      const currentX = dragX.get();
+      const newX = Math.max(currentX - containerRef.current.offsetWidth, dragConstraints.left);
+      dragX.set(newX);
+    }
+  };
+
+  // --- UPDATE BUTTON DISABLED STATE ON DRAG ---
+  useEffect(() => {
+    const unsubscribe = dragXSpring.on("change", (latest) => {
+      setCanScrollPrev(latest < dragConstraints.right - 1);
+      setCanScrollNext(latest > dragConstraints.left + 1);
+    });
+    return () => unsubscribe();
+  }, [dragConstraints, dragXSpring]);
 
   // --- CONDITIONAL RENDERING FOR LOADING AND ERROR STATES ---
   if (loading) {
@@ -130,7 +160,6 @@ const CoolGallery = () => {
         style={{ x: dragXSpring }}
         className="relative z-10 h-full flex items-center gap-4 md:gap-8 px-12 cursor-grab active:cursor-grabbing"
       >
-        {/* Render images from state instead of static data */}
         {images.map((img, idx) => (
           <ImageCard
             key={img.uniqueId} 
@@ -142,6 +171,28 @@ const CoolGallery = () => {
           />
         ))}
       </motion.div>
+
+      {/* --- ARROW BUTTONS --- */}
+      <div className="absolute inset-0 z-20 flex items-center justify-between pointer-events-none px-4">
+        <button
+          onClick={handlePrev}
+          disabled={!canScrollPrev}
+          className="pointer-events-auto p-2 bg-neutral-800/50 text-white rounded-full transition-opacity duration-300 disabled:opacity-30 hover:bg-neutral-700/70"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={!canScrollNext}
+          className="pointer-events-auto p-2 bg-neutral-800/50 text-white rounded-full transition-opacity duration-300 disabled:opacity-30 hover:bg-neutral-700/70"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
 
       <AnimatePresence>
         {selectedImage && (
