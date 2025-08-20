@@ -12,26 +12,34 @@ const EventSection = () => {
     const fetchEvents = async () => {
       try {
         const response = await eventsApi.getAll();
+
+        // Access the nested array of events from the response object.
+        const eventsData = response.data?.data;
         
-        // FIX 1: Access the nested 'items' array from the response data object.
-        if (response.data && response.data.data && Array.isArray(response.data.data.items)) {
+        // Verify that the data from the API is an array before processing.
+        if (eventsData && Array.isArray(eventsData)) {
             
-            // FIX 2: Map the API data to the format expected by the EventCard component.
-            // This renames fields and formats the date for display.
-            const formattedEvents = response.data.data.items.map(event => ({
-              id: event.id,
-              title: event.title,
-              description: event.description,
-              image: event.imageUrl, // Map 'imageUrl' to 'image'
-              date: new Date(event.eventDate).toLocaleDateString('en-US', { // Format the ISO date string
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-              })
-            }));
+            const formattedEvents = eventsData
+              // Filter out events that are not marked as active.
+              .filter(event => event.isActive)
+              // Sort events chronologically, with the soonest event first.
+              .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate))
+              // Map the API data to the format expected by the EventCard component.
+              .map(event => ({
+                id: event.id,
+                title: event.title,
+                description: event.description,
+                image: event.imageUrl, // Map 'imageUrl' to 'image'
+                date: new Date(event.eventDate).toLocaleDateString('en-US', { // Format the ISO date string
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                })
+              }));
 
             setEvents(formattedEvents);
         } else {
+            // Throw an error if the data format is unexpected.
             throw new Error("Invalid data format received from the API.");
         }
       } catch (err) {
