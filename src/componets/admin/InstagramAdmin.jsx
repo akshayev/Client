@@ -4,15 +4,26 @@ import AdminInput from './AdminInput.jsx';
 import { FiInstagram, FiImage, FiEdit, FiTrash2, FiLink } from 'react-icons/fi';
 import { instagramApi } from '../../services/api.js';
 
+// Corrected InstagramListItem with a working placeholder and safer code
+
 const InstagramListItem = ({ item, onEdit, onDelete }) => (
     <div className="flex items-center justify-between bg-neutral-800 p-4 rounded-lg">
         <div className="flex items-center gap-4">
-            <img src={item.imageUrl || item.imageLink || 'https://via.placeholder.com/150/111827/FFFFFF?text=Insta'} alt="Instagram Post" className="w-12 h-12 rounded-md object-cover" />
+            {/*
+              FIX: Replaced 'via.placeholder.com' with 'placehold.co'
+            */}
+            <img 
+              src={item.imageUrl || 'https://placehold.co/150x150/111827/FFFFFF?text=Insta'} 
+              alt="Instagram Post" 
+              className="w-12 h-12 rounded-md object-cover" 
+            />
             <div>
                 <p className="font-bold text-white">Instagram Post</p>
                 {item.postUrl && (
                     <a href={item.postUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-neutral-400 hover:text-sky-400 flex items-center gap-1">
-                        <FiLink size={12}/> {item.postUrl.substring(0, 40)}...
+                        <FiLink size={12}/> 
+                        {/* IMPROVEMENT: Added optional chaining to prevent crash if postUrl is null */}
+                        {item.postUrl?.substring(0, 40)}...
                     </a>
                 )}
             </div>

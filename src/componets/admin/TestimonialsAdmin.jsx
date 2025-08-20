@@ -6,13 +6,28 @@ import { FiUsers, FiImage, FiMessageSquare, FiEdit, FiTrash2 } from 'react-icons
 import { testimonialsApi } from '../../services/api.js';
 
 // 1. How a single testimonial is displayed in the list
+// 1. How a single testimonial is displayed in the list (Corrected)
+// Corrected TestimonialListItem with a working placeholder URL
+
 const TestimonialListItem = ({ item, onEdit, onDelete }) => (
     <div className="flex items-center justify-between bg-neutral-800 p-4 rounded-lg">
         <div className="flex items-center gap-4">
-            <img src={item.imageLink || 'https://via.placeholder.com/50'} alt={item.name} className="w-12 h-12 rounded-full object-cover" />
+            {/* 
+              This is the corrected line. 
+              Replaced 'https://via.placeholder.com/50' with 'https://placehold.co/50x50'
+            */}
+            <img 
+              src={item.imageLink || 'https://placehold.co/50x50'} 
+              alt={item.name} 
+              className="w-12 h-12 rounded-full object-cover" 
+            />
             <div>
                 <p className="font-bold text-white">{item.name}</p>
-                <p className="text-sm text-neutral-400 italic">"{item.text.substring(0, 50)}..."</p>
+                {/* 
+                  Kept the safe-handling for text from the previous recommendation 
+                  to prevent other potential errors.
+                */}
+                <p className="text-sm text-neutral-400 italic">"{item.text?.substring(0, 50)}..."</p>
             </div>
         </div>
         <div className="flex items-center gap-4">
