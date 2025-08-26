@@ -1,5 +1,6 @@
 // src/components/gallery/ImageCard.js
 import React, { useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 
 const ImageCard = ({ image, onClick, className, ...props }) => {
@@ -47,6 +48,8 @@ const ImageCard = ({ image, onClick, className, ...props }) => {
             <motion.img
                 src={image.src}
                 alt={image.title}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover z-0"
                 style={{ transform: "translateZ(-10px) scale(1.15)" }}
             />

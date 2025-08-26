@@ -115,6 +115,8 @@ const Testimonials = () => {
                 <img
                   src={currentTestimonial.imageUrl}
                   alt={currentTestimonial.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-white/20"
                 />
               )}
