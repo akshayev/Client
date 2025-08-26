@@ -46,16 +46,7 @@ export const EventCard = ({ event, index }) => {
         </h3>
         <p className="text-gray-400 mb-6 leading-relaxed text-sm sm:text-base">
           {event.description}
-        </p>
-        
-        <motion.button 
-          className="flex items-center gap-2 bg-white text-black px-4 py-2 sm:px-5 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base hover:bg-gray-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          whileHover={{ scale: 1.05, gap: "12px" }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Learn More
-          <FiArrowRight />
-        </motion.button>
+        </p> 
       </div>
     </motion.div>
   );
