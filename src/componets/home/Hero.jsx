@@ -15,6 +15,32 @@ const textVariants = {
   animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut', staggerChildren: 0.2 } },
 };
 
+// --- Professional Loading Skeleton Component ---
+const HeroLoadingSkeleton = () => (
+  <section className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden bg-black">
+    {/* Background Skeleton with Shimmer Effect */}
+    <div className="absolute inset-0 bg-neutral-900 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/50 via-neutral-900/50 to-black/50" />
+      <div className="absolute top-0 left-[-150%] h-full w-[150%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    </div>
+
+    {/* Text and Controls Skeleton */}
+    <div className="relative z-20 max-w-5xl w-full text-center px-4 animate-pulse">
+      {/* Title Placeholder */}
+      <div className="h-10 md:h-16 w-3/4 max-w-2xl bg-white/10 rounded-lg mx-auto" />
+      {/* Subtitle Placeholder */}
+      <div className="mt-6 h-6 md:h-8 w-full max-w-xl bg-white/10 rounded-lg mx-auto" />
+    </div>
+
+    {/* Bottom Controls Placeholder */}
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4 animate-pulse">
+      <div className="p-2 h-10 w-10 rounded-full bg-white/10"></div>
+      <div className="w-48 h-1 bg-white/10 rounded-full"></div>
+      <div className="p-2 h-10 w-10 rounded-full bg-white/10"></div>
+    </div>
+  </section>
+);
+
 
 const Hero = () => {
   const [imageIndex, setImageIndex] = useState(0);
@@ -28,12 +54,9 @@ const Hero = () => {
       try {
         setLoading(true);
         const response = await heroApi.getAll();
-
-        // THE FIX: Access the 'data' property inside the response object
         const imagesArray = response.data.data;
 
         if (Array.isArray(imagesArray)) {
-          // Slice the correct array and update the state
           setHeroImages(imagesArray.slice(0, 5));
         } else {
           throw new Error("API response did not contain a valid array of images.");
@@ -67,12 +90,10 @@ const Hero = () => {
     }
   }, [heroImages.length, nextImage]);
 
-  // Reset image loaded flag when the index changes so we can fade the next image in
   useEffect(() => {
     setIsImageLoaded(false);
   }, [imageIndex]);
 
-  // Preload the next image to avoid visible progressive paint on transition
   useEffect(() => {
     if (heroImages.length > 0) {
       const nextIdx = (imageIndex + 1) % heroImages.length;
@@ -81,8 +102,9 @@ const Hero = () => {
     }
   }, [imageIndex, heroImages]);
 
+  // NEW: Use the HeroLoadingSkeleton component
   if (loading) {
-    return <div className="h-screen w-full flex items-center justify-center bg-black text-white">Loading...</div>;
+    return <HeroLoadingSkeleton />;
   }
   
   if (error) {
@@ -106,18 +128,16 @@ const Hero = () => {
           animate="animate"
           exit="exit"
         >
-           {/* This now works because your API provides 'imageUrl' */}
            <img
             key={imageIndex}
             src={currentImage.imageUrl} 
             alt={currentImage.title}
             loading="eager"
             decoding="async"
-            fetchpriority="high"
+            fetchPriority="high"
             onLoad={() => setIsImageLoaded(true)}
             className={`w-full h-full object-cover transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
-           {/* Light skeleton/placeholder while image decodes */}
            {!isImageLoaded && (
              <div className="absolute inset-0 bg-neutral-900">
                <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/60 via-neutral-900/60 to-black/60" />
@@ -129,7 +149,6 @@ const Hero = () => {
       </AnimatePresence>
       <div className="relative z-20 max-w-5xl text-center px-4">
         <motion.div key={imageIndex} variants={textVariants} initial="initial" animate="animate">
-          {/* This works because your API provides 'title' */}
           <motion.h1 
             className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white" 
             style={{ textShadow: '0px 4px 12px rgba(0, 0, 0, 0.5)' }}
@@ -137,7 +156,6 @@ const Hero = () => {
           >
             {currentImage.title}
           </motion.h1>
-          {/* This works because your API provides 'subtitle' */}
           <motion.p 
             className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-gray-200" 
             style={{ textShadow: '0px 2px 8px rgba(0, 0, 0, 0.5)' }}

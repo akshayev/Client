@@ -34,9 +34,9 @@ export const EventCard = ({ event, index }) => {
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
         />
-        <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold backdrop-blur-sm">
+        {/*<div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold backdrop-blur-sm">
           {event.date}
-        </div>
+        </div>*/}
       </div>
 
       {/* Responsive Event Content */}
