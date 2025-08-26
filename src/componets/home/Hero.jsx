@@ -135,6 +135,7 @@ const Hero = () => {
             loading="eager"
             decoding="async"
             fetchPriority="high"
+            data-critical="true"
             onLoad={() => setIsImageLoaded(true)}
             className={`w-full h-full object-cover transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
