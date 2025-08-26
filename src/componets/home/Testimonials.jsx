@@ -3,6 +3,50 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { testimonialsApi } from '../../services/api.js'; // Adjust path if necessary
 
+// --- Professional Loading Skeleton for the Testimonials Section ---
+const TestimonialsSkeleton = () => {
+    return (
+        <section className="bg-black text-white py-20 lg:py-32 overflow-hidden">
+            <div className="max-w-4xl mx-auto px-6 text-center animate-pulse">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12">
+                    What Our Members Say
+                </h2>
+                
+                {/* Main Content Box Skeleton */}
+                <div className="relative h-80 md:h-72 w-full bg-zinc-900/50 border border-white/10 p-8 rounded-2xl flex flex-col items-center justify-center">
+                    {/* Avatar Placeholder */}
+                    <div className="w-20 h-20 rounded-full bg-neutral-800 mb-4"></div>
+                    
+                    {/* Quote Placeholder */}
+                    <div className="flex-grow w-full space-y-2">
+                        <div className="h-5 bg-neutral-800 rounded w-full"></div>
+                        <div className="h-5 bg-neutral-800 rounded w-full"></div>
+                        <div className="h-5 bg-neutral-800 rounded w-5/6 mx-auto"></div>
+                    </div>
+
+                    {/* Footer Placeholder */}
+                    <div className="mt-4 w-full flex flex-col items-center gap-2">
+                        <div className="h-5 bg-neutral-800 rounded w-1/3"></div>
+                        <div className="h-4 bg-neutral-800 rounded w-1/4"></div>
+                    </div>
+                </div>
+
+                {/* Navigation Skeleton */}
+                <div className="mt-8 flex justify-center items-center gap-6">
+                    <div className="p-2 h-10 w-10 rounded-full bg-white/10"></div>
+                    <div className="flex gap-2">
+                        <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                        <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                        <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                    </div>
+                    <div className="p-2 h-10 w-10 rounded-full bg-white/10"></div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,12 +57,15 @@ const Testimonials = () => {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
+        setLoading(true);
         const response = await testimonialsApi.getAll();
-        // FIX 1: Extract the nested 'data' array from the API response
         if (response.data && Array.isArray(response.data.data)) {
-            setTestimonials(response.data.data);
+            // **THE FIX**: Filter data to ensure robustness against API errors
+            const validTestimonials = response.data.data.filter(
+                item => item && item.id && item.name && item.text
+            );
+            setTestimonials(validTestimonials);
         } else {
-            // Handle cases where the API response isn't structured as expected
             throw new Error("Invalid data format from API");
         }
       } catch (err) {
@@ -44,12 +91,9 @@ const Testimonials = () => {
     setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  // --- RENDER LOGIC UPDATE ---
   if (loading) {
-    return (
-      <section className="bg-black text-white py-20 lg:py-32 min-h-[400px]">
-        <div className="max-w-4xl mx-auto px-6 text-center">Loading...</div>
-      </section>
-    );
+    return <TestimonialsSkeleton />;
   }
 
   if (error) {
@@ -65,15 +109,14 @@ const Testimonials = () => {
       <section className="bg-black text-white py-20 lg:py-32 min-h-[400px]">
         <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12">What Our Members Say</h2>
-            <p>No testimonials available at the moment.</p>
+            <p className="text-gray-400">No testimonials available at the moment.</p>
         </div>
       </section>
     );
   }
 
-  // This check is crucial. It ensures we don't try to access an index that doesn't exist.
   const currentTestimonial = testimonials[activeIndex];
-  if (!currentTestimonial) return null; // Or return a fallback UI
+  if (!currentTestimonial) return null; 
 
   const slideVariants = {
     hidden: (direction) => ({ x: direction === 'right' ? '100%' : '-100%', opacity: 0, scale: 0.95 }),
@@ -94,15 +137,10 @@ const Testimonials = () => {
           What Our Members Say
         </motion.h2>
 
-        <motion.div
-          className="relative h-80 md:h-72"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
+        <motion.div className="relative h-80 md:h-72" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
           <AnimatePresence initial={false} custom={slideDirection} mode="wait">
             <motion.div
-              key={currentTestimonial.id} // Using a unique ID from the data is better for React's key prop
+              key={currentTestimonial.id} 
               custom={slideDirection}
               variants={slideVariants}
               initial="hidden"
@@ -110,7 +148,6 @@ const Testimonials = () => {
               exit="exit"
               className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900/50 border border-white/10 p-8 rounded-2xl backdrop-blur-sm"
             >
-              {/* FIX 2: Use `imageUrl` instead of `image` */}
               {currentTestimonial.imageUrl && (
                 <img
                   src={currentTestimonial.imageUrl}
@@ -120,17 +157,10 @@ const Testimonials = () => {
                   className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-white/20"
                 />
               )}
-
-              {/* FIX 3: Use `text` instead of `quote` */}
-              <blockquote className="flex-grow text-lg md:text-xl italic text-gray-300">
-                "{currentTestimonial.text}"
-              </blockquote>
-
+              <blockquote className="flex-grow text-lg md:text-xl italic text-gray-300">"{currentTestimonial.text}"</blockquote>
               <footer className="mt-4">
                 <p className="font-bold text-white">{currentTestimonial.name}</p>
-                {/* FIX 4: The API doesn't provide a `title`. You can remove it or display a default value. */}
-                {/* <p className="text-sm text-gray-400">{currentTestimonial.title}</p> */}
-                 <p className="text-sm text-gray-400">Club Member</p>
+                <p className="text-sm text-gray-400">Club Member</p>
               </footer>
             </motion.div>
           </AnimatePresence>
@@ -140,19 +170,15 @@ const Testimonials = () => {
           <button onClick={prevTestimonial} className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
             <FiChevronLeft size={24} />
           </button>
-          
           <div className="flex gap-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  activeIndex === index ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'
-                }`}
+                className={`w-2 h-2 rounded-full transition-colors ${activeIndex === index ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'}`}
               />
             ))}
           </div>
-          
           <button onClick={nextTestimonial} className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
             <FiChevronRight size={24} />
           </button>

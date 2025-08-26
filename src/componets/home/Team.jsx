@@ -1,23 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import { teamApi } from '../../services/api.js'; // Adjust path if necessary
 
+// --- Professional Loading Skeleton for the Team Section ---
+const TeamSkeleton = () => {
+  return (
+    <section className='relative w-full min-h-screen bg-black text-[#e3e3db] flex flex-col justify-center items-center gap-6 md:gap-10 overflow-hidden font-sans p-4 animate-pulse'>
+      
+      {/* --- DESKTOP SKELETON --- */}
+      <div className='hidden md:flex flex-col justify-center items-center gap-10 w-full'>
+        {/* Placeholder for Profile Images */}
+        <div className='flex justify-center items-center -space-x-3 md:-space-x-4 lg:-space-x-5'>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div
+              key={index}
+              // Mimics the size, shape, and border of the real images
+              className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-neutral-800 border-2 lg:border-4 border-[#e3e3db]/30"
+            />
+          ))}
+        </div>
+        
+        {/* Placeholder for the Name/Title Text */}
+        <div className="w-72 h-14 bg-neutral-800 rounded-lg" />
+      </div>
+
+      {/* --- MOBILE SKELETON --- */}
+      <div className='md:hidden flex flex-col items-center gap-6 w-full max-w-xs'>
+        {/* Placeholder for list items */}
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="flex items-center gap-4 w-full">
+            <div className="w-16 h-16 rounded-full bg-neutral-800" />
+            <div className="flex flex-col gap-2 flex-grow">
+              <div className="w-3/4 h-6 bg-neutral-800 rounded"></div>
+              <div className="w-1/2 h-4 bg-neutral-800 rounded"></div>
+            </div>
+          </div>
+        ))}
+        {/* Placeholder for the "The Squad" title on mobile */}
+         <div className="mt-6 w-48 h-10 bg-neutral-800 rounded-lg" />
+      </div>
+    </section>
+  );
+};
+
+
 const Team = () => {
-  // State for API data, loading, and errors
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // State for UI interaction
   const [activeId, setActiveId] = useState(null);
 
-  // Fetch data when the component mounts
   useEffect(() => {
     const fetchTeam = async () => {
       try {
+        setLoading(true); // Ensure loading is true at the start
         const response = await teamApi.getAll();
+        
         if (response.data && Array.isArray(response.data.data)) {
-          // Sort the team members by the orderIndex to ensure consistent ordering
-          const sortedMembers = response.data.data.sort((a, b) => a.orderIndex - b.orderIndex);
+          // **THE FIX**: Filter out members missing crucial data to prevent errors
+          const validMembers = response.data.data.filter(
+            member => member && member.id && member.name && member.photoUrl
+          );
+          
+          const sortedMembers = validMembers.sort((a, b) => a.orderIndex - b.orderIndex);
           setTeamMembers(sortedMembers);
         } else {
           throw new Error("Invalid data format received from API");
@@ -31,21 +75,17 @@ const Team = () => {
     };
 
     fetchTeam();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
   
-  // Toggle active member on mobile
   const handleMemberClick = (memberId) => {
-    if (window.innerWidth < 768) { // Only use click toggle on smaller screens
+    if (window.innerWidth < 768) {
         setActiveId(prevId => prevId === memberId ? null : memberId);
     }
   };
 
+  // --- RENDER LOGIC UPDATE ---
   if (loading) {
-    return (
-        <section className='relative w-full min-h-screen bg-black text-[#e3e3db] flex justify-center items-center'>
-            <p>Loading Team...</p>
-        </section>
-    );
+    return <TeamSkeleton />;
   }
 
   if (error) {
@@ -59,7 +99,6 @@ const Team = () => {
   return (
     <section className='relative w-full min-h-screen bg-black text-[#e3e3db] flex flex-col justify-center items-center gap-6 md:gap-10 overflow-hidden font-sans p-4'>
       
-      {/* --- DESKTOP: Profile Images Container --- */}
       <div 
         className='hidden md:flex justify-center items-center -space-x-3 md:-space-x-4 lg:-space-x-5' 
         onMouseLeave={() => setActiveId(null)}
@@ -71,13 +110,7 @@ const Team = () => {
           return (
             <img
               key={member.id}
-              className={`
-                relative rounded-full object-cover cursor-pointer
-                border-2 lg:border-4 border-[#e3e3db]
-                transition-all duration-500 ease-in-out
-                ${isActive ? 'w-28 h-28 lg:w-32 lg:h-32 z-10' : 'w-16 h-16 lg:w-20 lg:h-20'}
-                ${isDimmed ? 'opacity-40 grayscale' : 'opacity-100 grayscale-0'}
-              `}
+              className={`relative rounded-full object-cover cursor-pointer border-2 lg:border-4 border-[#e3e3db] transition-all duration-500 ease-in-out ${isActive ? 'w-28 h-28 lg:w-32 lg:h-32 z-10' : 'w-16 h-16 lg:w-20 lg:h-20'} ${isDimmed ? 'opacity-40 grayscale' : 'opacity-100 grayscale-0'}`}
               src={member.photoUrl} 
               alt={`Profile of ${member.name}`}
               onMouseEnter={() => setActiveId(member.id)}
@@ -86,7 +119,6 @@ const Team = () => {
         })}
       </div>
 
-      {/* --- MOBILE: Profile List Container --- */}
       <div className='md:hidden flex flex-col items-center gap-4 w-full max-w-xs'>
         {teamMembers.length > 0 ? (
             teamMembers.map((member) => {
@@ -95,76 +127,42 @@ const Team = () => {
                     <div key={member.id} className="w-full">
                         <div className="flex items-center gap-4" onClick={() => handleMemberClick(member.id)}>
                             <img
-                                className={`
-                                    rounded-full object-cover cursor-pointer
-                                    border-2 border-[#e3e3db]
-                                    transition-all duration-300 ease-in-out
-                                    ${isActive ? 'w-20 h-20' : 'w-16 h-16 opacity-70'}
-                                `}
+                                className={`rounded-full object-cover cursor-pointer border-2 border-[#e3e3db] transition-all duration-300 ease-in-out ${isActive ? 'w-20 h-20' : 'w-16 h-16 opacity-70'}`}
                                 src={member.photoUrl}
                                 alt={`Profile of ${member.name}`}
                             />
                             <div className="flex flex-col">
-                                <h3 className={`
-                                    text-xl font-bold uppercase transition-colors duration-300
-                                    ${isActive ? 'text-white' : 'text-gray-400'}
-                                `}>
-                                    {member.name}
-                                </h3>
-                                {/* Add a title or role if available in your API */}
-                                {/* <p className='text-sm text-gray-400'>{member.title}</p> */}
+                                <h3 className={`text-xl font-bold uppercase transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-400'}`}>{member.name}</h3>
+                                {/* Bio will go in the collapsible section */}
                             </div>
                         </div>
-                        
-                        {/* Collapsible details section for mobile */}
-                        <div className={`
-                            overflow-hidden transition-max-height duration-500 ease-in-out
-                            ${isActive ? 'max-h-40 mt-2' : 'max-h-0'}
-                        `}>
-                           {/* You can add more member details here, like a short bio */}
-                           <p className="text-sm text-gray-300 pl-24 pr-4">
-                                More details about {member.name} can be displayed here when active.
+                        <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isActive ? 'max-h-40 mt-2' : 'max-h-0'}`}>
+                           {/* Using bio from API data */}
+                           <p className="text-sm text-gray-300 pl-[88px] pr-4">
+                                {member.bio || `Details about ${member.name}.`}
                            </p>
                         </div>
                     </div>
                 );
             })
         ) : (
-            <p>No team members to display.</p>
+            <p className="text-gray-400">No team members found.</p>
         )}
       </div>
 
-      {/* --- DESKTOP: Animated Names Container --- */}
       <div className="hidden md:block relative w-full h-[80px] lg:h-[100px] overflow-hidden text-center">
-        <div className={`
-            absolute w-full h-full flex justify-center items-center
-            text-5xl lg:text-6xl font-extrabold uppercase
-            transition-transform duration-500 ease-in-out
-            ${activeId === null && teamMembers.length > 0 ? 'translate-y-0' : '-translate-y-full'}
-          `}>
+        <div className={`absolute w-full h-full flex justify-center items-center text-5xl lg:text-6xl font-extrabold uppercase transition-transform duration-500 ease-in-out ${activeId === null && teamMembers.length > 0 ? 'translate-y-0' : '-translate-y-full'}`}>
           The Squad
         </div>
-        
         {teamMembers.map((member) => (
-            <div 
-              key={member.id} 
-              className={`
-                absolute w-full h-full flex justify-center items-center
-                text-5xl lg:text-6xl font-extrabold uppercase
-                transition-transform duration-500 ease-in-out
-                ${activeId === member.id ? 'translate-y-0' : 'translate-y-full'}
-              `}
-            >
+            <div key={member.id} className={`absolute w-full h-full flex justify-center items-center text-5xl lg:text-6xl font-extrabold uppercase transition-transform duration-500 ease-in-out ${activeId === member.id ? 'translate-y-0' : 'translate-y-full'}`}>
                 {member.name}
             </div>
         ))}
       </div>
-
-       {/* --- MOBILE: Title --- */}
-      <div className="md:hidden text-4xl font-extrabold uppercase">
+       <div className="md:hidden text-4xl font-extrabold uppercase">
          The Squad
       </div>
-
     </section>
   );
 };
