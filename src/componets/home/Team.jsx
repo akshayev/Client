@@ -80,6 +80,8 @@ const Team = () => {
                   // CORRECTED: Use `photoUrl` to match the API response data.
                   src={member.photoUrl} 
                   alt={`Profile of ${member.name}`}
+                  loading="lazy"
+                  decoding="async"
                   onMouseEnter={() => setActiveId(member.id)}
                 />
               );

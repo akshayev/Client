@@ -94,6 +94,9 @@ const Hero = () => {
            <img
             src={currentImage.imageUrl} 
             alt={currentImage.title}
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
             className="w-full h-full object-cover"
           />
            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/60" />
