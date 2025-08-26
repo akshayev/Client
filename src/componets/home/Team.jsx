@@ -99,6 +99,14 @@ const Team = () => {
   return (
     <section className='relative w-full min-h-screen bg-black text-[#e3e3db] flex flex-col justify-center items-center gap-6 md:gap-10 overflow-hidden font-sans p-4'>
       
+      {/* Heading for The Community */}
+      <div className="text-center mb-8">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-wider text-white">
+          The Community
+        </h2>
+        <div className="w-24 h-1 bg-[#e3e3db] mx-auto mt-4 rounded-full"></div>
+      </div>
+      
       <div 
         className='hidden md:flex justify-center items-center -space-x-3 md:-space-x-4 lg:-space-x-5' 
         onMouseLeave={() => setActiveId(null)}
