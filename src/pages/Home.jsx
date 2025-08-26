@@ -10,11 +10,11 @@ import SocialFeed from "../componets/home/SocialFeed"
 
 function Home() {
   return (
-    <div className="font-sans antialiased text-gray-900 ">
-      <div className="bg-black text-white">
-        <div className="bg-stone-900 text-white font-sans">
+    <div className="font-sans antialiased text-gray-900 relative">
+      <div className="bg-black text-white relative">
+        <div className="bg-stone-900 text-white font-sans relative">
           <Hero />
-          <div id="work" className="min-h-screen text-center">
+          <div id="work" className="min-h-screen text-center relative">
             <AboutSection />
             <Gallery />
             <Event />

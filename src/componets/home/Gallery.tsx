@@ -1,8 +1,18 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX, FiArrowRight } from "react-icons/fi";
 import { galleryApi } from '../../services/api.js'; // Ensure this path is correct
 import { useNavigate } from 'react-router-dom';
+
+// Type definition for gallery items
+interface GalleryItemType {
+  id: string | number;
+  src: string;
+  title: string;
+  category?: string;
+  description?: string;
+  imageUrl?: string;
+}
 
 // --- Gallery Item Component (Unchanged) ---
 const GalleryItem = ({ item, onSelect }) => (
@@ -16,7 +26,13 @@ const GalleryItem = ({ item, onSelect }) => (
     className="relative rounded-lg overflow-hidden cursor-pointer group"
     onClick={() => onSelect(item)}
   >
-    <img src={item.src} alt={item.title} className="w-full h-full object-cover" />
+    <img 
+      src={item.src} 
+      alt={item.title} 
+      loading="lazy"
+      decoding="async"
+      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 image-optimized" 
+    />
     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
       <h3 className="text-white text-lg font-semibold">{item.title}</h3>
     </div>
@@ -37,7 +53,13 @@ const Lightbox = ({ item, onClose }) => (
       className="relative bg-zinc-900 rounded-xl max-w-4xl max-h-[90vh] w-auto h-auto flex flex-col md:flex-row overflow-hidden"
       onClick={(e) => e.stopPropagation()}
     >
-      <img src={item.src} alt={item.title} className="object-contain md:w-2/3" />
+      <img 
+        src={item.src} 
+        alt={item.title} 
+        loading="eager"
+        decoding="async"
+        className="object-contain md:w-2/3 image-optimized" 
+      />
       <div className="p-6 text-white w-full md:w-1/3">
         <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
         <p className="text-sm text-gray-400 mb-4">{item.category}</p>
@@ -51,7 +73,7 @@ const Lightbox = ({ item, onClose }) => (
 );
 
 
-// --- Professional Loading Skeleton for Gallery (Unchanged) ---
+// --- Professional Loading Skeleton for Gallery (IMPROVED) ---
 const GalleryLoadingSkeleton = ({ itemsToShow = 10 }) => {
     const skeletonHeights = ['h-64', 'h-80', 'h-72', 'h-96', 'h-56'];
   
@@ -72,8 +94,9 @@ const GalleryLoadingSkeleton = ({ itemsToShow = 10 }) => {
               <div
                 className={`w-full ${skeletonHeights[index % skeletonHeights.length]} bg-zinc-900 rounded-lg overflow-hidden relative`}
               >
-                {/* Shimmer Effect */}
-                <div className="absolute top-0 left-[-150%] h-full w-[150%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                {/* Enhanced Shimmer Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-zinc-800 via-zinc-700 to-zinc-800" />
+                <div className="absolute top-0 left-[-150%] h-full w-[150%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               </div>
             </div>
           ))}
@@ -85,11 +108,11 @@ const GalleryLoadingSkeleton = ({ itemsToShow = 10 }) => {
 
 // --- Main Gallery Section Component (FINAL VERSION) ---
 const GallerySection = () => {
-  const [galleryData, setGalleryData] = useState([]);
+  const [galleryData, setGalleryData] = useState<GalleryItemType[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState('All');
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<GalleryItemType | null>(null);
   
   const itemsToShow = 10;
   const navigate = useNavigate();
@@ -125,14 +148,14 @@ const GallerySection = () => {
 
   const filterCategories = useMemo(() => {
     if (galleryData.length === 0) return [];
-    const categories = new Set(galleryData.map(item => item.category));
+    const categories = new Set(galleryData.map(item => item.category || 'Uncategorized'));
     return ['All', ...Array.from(categories)];
   }, [galleryData]);
 
   const filteredItems = useMemo(() =>
     activeFilter === 'All'
       ? galleryData
-      : galleryData.filter(item => item.category === activeFilter),
+      : galleryData.filter(item => (item.category || 'Uncategorized') === activeFilter),
     [activeFilter, galleryData]
   );
   
@@ -140,8 +163,8 @@ const GallerySection = () => {
   const hasMore = filteredItems.length > itemsToShow;
 
   return (
-    <section id="works" className="bg-black text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto">
+    <section id="works" className="bg-black text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 relative">
+      <div className="max-w-7xl mx-auto relative">
         <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-4" initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
           Our Work
         </motion.h2>

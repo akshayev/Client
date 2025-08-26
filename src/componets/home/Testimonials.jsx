@@ -9,7 +9,7 @@ const TestimonialsSkeleton = () => {
         <section className="bg-black text-white py-20 lg:py-32 overflow-hidden">
             <div className="max-w-4xl mx-auto px-6 text-center animate-pulse">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12">
-                    What Our Members Say
+                    What Our People Say
                 </h2>
                 
                 {/* Main Content Box Skeleton */}

@@ -118,9 +118,11 @@ const Team = () => {
           return (
             <img
               key={member.id}
-              className={`relative rounded-full object-cover cursor-pointer border-2 lg:border-4 border-[#e3e3db] transition-all duration-500 ease-in-out ${isActive ? 'w-28 h-28 lg:w-32 lg:h-32 z-10' : 'w-16 h-16 lg:w-20 lg:h-20'} ${isDimmed ? 'opacity-40 grayscale' : 'opacity-100 grayscale-0'}`}
+              className={`relative rounded-full object-cover cursor-pointer border-2 lg:border-4 border-[#e3e3db] transition-all duration-500 ease-in-out image-optimized ${isActive ? 'w-28 h-28 lg:w-32 lg:h-32 z-10' : 'w-16 h-16 lg:w-20 lg:h-20'} ${isDimmed ? 'opacity-40 grayscale' : 'opacity-100 grayscale-0'}`}
               src={member.photoUrl} 
               alt={`Profile of ${member.name}`}
+              loading="lazy"
+              decoding="async"
               onMouseEnter={() => setActiveId(member.id)}
             />
           );
@@ -135,9 +137,11 @@ const Team = () => {
                     <div key={member.id} className="w-full">
                         <div className="flex items-center gap-4" onClick={() => handleMemberClick(member.id)}>
                             <img
-                                className={`rounded-full object-cover cursor-pointer border-2 border-[#e3e3db] transition-all duration-300 ease-in-out ${isActive ? 'w-20 h-20' : 'w-16 h-16 opacity-70'}`}
+                                className={`rounded-full object-cover cursor-pointer border-2 border-[#e3e3db] transition-all duration-300 ease-in-out image-optimized ${isActive ? 'w-20 h-20' : 'w-16 h-16 opacity-70'}`}
                                 src={member.photoUrl}
                                 alt={`Profile of ${member.name}`}
+                                loading="lazy"
+                                decoding="async"
                             />
                             <div className="flex flex-col">
                                 <h3 className={`text-xl font-bold uppercase transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-400'}`}>{member.name}</h3>
