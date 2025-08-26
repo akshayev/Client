@@ -13,6 +13,48 @@ const SPRING_OPTIONS = {
   mass: 0.5,
 };
 
+// --- Professional Loading Skeleton Component ---
+const CoolGallerySkeleton = () => {
+  // We'll render 8 skeleton cards to fill the initial viewport and suggest more off-screen
+  const skeletonCards = Array.from({ length: 8 }); 
+
+  return (
+    <div className="relative h-screen w-full overflow-hidden bg-neutral-950 text-white font-sans">
+      {/* Background Text Placeholder (matches the final layout) */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center">
+        <p className="text-center text-5xl md:text-7xl font-black text-neutral-800 pointer-events-none">
+          EXPLORE THE GALLERY
+        </p>
+      </div>
+      
+      {/* Skeleton Image Cards Row with Pulse Animation */}
+      <div className="relative z-10 h-full flex items-center gap-4 md:gap-8 px-12 animate-pulse">
+        {skeletonCards.map((_, idx) => (
+          <div
+            key={idx}
+            // Mimic the size, aspect ratio, and alternating offset of the real cards
+            className={`
+              relative aspect-[9/12] w-48 md:w-60 lg:w-72 shrink-0
+              rounded-2xl overflow-hidden bg-neutral-900
+              ${idx % 2 === 0 ? 'mb-24' : 'mt-24'}
+            `}
+          >
+            {/* Re-using the consistent shimmer effect */}
+            <div className="absolute top-0 left-[-150%] h-full w-[150%] animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+          </div>
+        ))}
+      </div>
+
+      {/* Skeleton Arrow Buttons */}
+      <div className="absolute inset-0 z-20 flex items-center justify-between pointer-events-none px-4">
+        <div className="h-10 w-10 rounded-full bg-neutral-800/50"></div>
+        <div className="h-10 w-10 rounded-full bg-neutral-800/50"></div>
+      </div>
+    </div>
+  );
+};
+
+
 const CoolGallery = () => {
   // --- STATE FOR API DATA ---
   const [images, setImages] = useState([]);
@@ -38,12 +80,14 @@ const CoolGallery = () => {
         setLoading(true);
         const response = await galleryApi.getAll();
         const items = response.data.data.items || [];
+        
+        // Filter for valid items to prevent errors from bad data
+        const validItems = items.filter(item => item && item.id && item.imageUrl);
 
-        // Format API data to match component props (imageUrl -> src) and add a unique ID
-        const formattedItems = items.map((item, index) => ({
+        const formattedItems = validItems.map((item, index) => ({
           ...item,
           src: item.imageUrl,
-          uniqueId: `${item.id}-${index}`, // Keep uniqueId for framer-motion's layoutId
+          uniqueId: `${item.id}-${index}`, 
         }));
         
         setImages(formattedItems);
@@ -57,9 +101,8 @@ const CoolGallery = () => {
     };
 
     fetchGalleryData();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
-  // --- MOUSE MOVE AND PARALLAX EFFECTS ---
   const handleMouseMove = ({ clientX, clientY, currentTarget }) => {
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
@@ -76,7 +119,6 @@ const CoolGallery = () => {
   
   const parallaxX = useTransform(dragXSpring, [-1000, 1000], [-150, 150]);
 
-  // --- DRAG CONSTRAINTS CALCULATION ---
   useLayoutEffect(() => {
     const calculateConstraints = () => {
       if (containerRef.current && images.length > 0) {
@@ -91,7 +133,6 @@ const CoolGallery = () => {
     return () => window.removeEventListener('resize', calculateConstraints);
   }, [images]);
 
-  // --- ARROW BUTTON CLICK HANDLERS ---
   const handlePrev = () => {
     if (containerRef.current) {
       const currentX = dragX.get();
@@ -108,7 +149,6 @@ const CoolGallery = () => {
     }
   };
 
-  // --- UPDATE BUTTON DISABLED STATE ON DRAG ---
   useEffect(() => {
     const unsubscribe = dragXSpring.on("change", (latest) => {
       setCanScrollPrev(latest < dragConstraints.right - 1);
@@ -117,13 +157,9 @@ const CoolGallery = () => {
     return () => unsubscribe();
   }, [dragConstraints, dragXSpring]);
 
-  // --- CONDITIONAL RENDERING FOR LOADING AND ERROR STATES ---
+  // --- UPDATED CONDITIONAL RENDERING ---
   if (loading) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center bg-neutral-950 text-white font-sans">
-        <p>Loading Gallery...</p>
-      </div>
-    );
+    return <CoolGallerySkeleton />;
   }
 
   if (error) {

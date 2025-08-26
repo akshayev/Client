@@ -3,6 +3,41 @@ import { motion } from "framer-motion";
 import { EventCard } from "./EventCard";
 import { eventsApi } from "../../services/api.js"; // Adjust path if necessary
 
+// --- Professional Loading Skeleton for the Events Section ---
+const EventSectionSkeleton = () => {
+    // Skeleton for an individual event card
+    const EventCardSkeleton = () => (
+        <div className="bg-neutral-900/80 rounded-lg p-5 w-full">
+            {/* Image Placeholder */}
+            <div className="w-full h-48 bg-neutral-800 rounded-md mb-4"></div>
+            
+            {/* Text Placeholders */}
+            <div className="space-y-3">
+                {/* Title Placeholder */}
+                <div className="w-3/4 h-6 bg-neutral-800 rounded"></div>
+                {/* Date Placeholder */}
+                <div className="w-1/2 h-4 bg-neutral-800 rounded"></div>
+                {/* Description Placeholder */}
+                <div className="space-y-2 pt-2">
+                    <div className="w-full h-4 bg-neutral-800 rounded"></div>
+                    <div className="w-full h-4 bg-neutral-800 rounded"></div>
+                    <div className="w-5/6 h-4 bg-neutral-800 rounded"></div>
+                </div>
+            </div>
+        </div>
+    );
+
+    // The grid container applies the pulse animation to all children
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 animate-pulse">
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
+        </div>
+    );
+};
+
+
 const EventSection = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,26 +46,25 @@ const EventSection = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setLoading(true);
         const response = await eventsApi.getAll();
-
-        // Access the nested array of events from the response object.
         const eventsData = response.data?.data;
         
-        // Verify that the data from the API is an array before processing.
         if (eventsData && Array.isArray(eventsData)) {
-            
-            const formattedEvents = eventsData
-              // Filter out events that are not marked as active.
+            // Filter out any events missing essential data before processing
+            const validEvents = eventsData.filter(event => 
+                event && event.id && event.title && event.imageUrl && event.eventDate
+            );
+
+            const formattedEvents = validEvents
               .filter(event => event.isActive)
-              // Sort events chronologically, with the soonest event first.
               .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate))
-              // Map the API data to the format expected by the EventCard component.
               .map(event => ({
                 id: event.id,
                 title: event.title,
                 description: event.description,
-                image: event.imageUrl, // Map 'imageUrl' to 'image'
-                date: new Date(event.eventDate).toLocaleDateString('en-US', { // Format the ISO date string
+                image: event.imageUrl,
+                date: new Date(event.eventDate).toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     year: 'numeric',
@@ -39,7 +73,6 @@ const EventSection = () => {
 
             setEvents(formattedEvents);
         } else {
-            // Throw an error if the data format is unexpected.
             throw new Error("Invalid data format received from the API.");
         }
       } catch (err) {
@@ -53,9 +86,11 @@ const EventSection = () => {
     fetchEvents();
   }, []);
 
+  // --- RENDER LOGIC UPDATE ---
   const renderContent = () => {
+    // Display the professional skeleton UI while loading
     if (loading) {
-      return <p className="text-center text-gray-400">Loading Events...</p>;
+      return <EventSectionSkeleton />;
     }
     
     if (error) {
@@ -66,6 +101,7 @@ const EventSection = () => {
         return <p className="text-center text-gray-400">No upcoming events right now. Check back later!</p>;
     }
     
+    // Render the actual event cards once data is available
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {events.slice(0, 3).map((event, index) => (
