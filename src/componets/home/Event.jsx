@@ -85,7 +85,7 @@ const EventSection = () => {
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          Upcoming Events
+          Events
         </motion.h2>
 
         {renderContent()}
