@@ -91,7 +91,7 @@ const Join = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
             >
-              <motion.input 
+              {/*<motion.input 
                 variants={fieldVariants}
                 className="w-full px-4 py-3 rounded-lg bg-zinc-800/50 border border-zinc-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all" 
                 placeholder="Your name" 
@@ -108,14 +108,13 @@ const Join = () => {
                 className="w-full px-4 py-3 rounded-lg bg-zinc-800/50 border border-zinc-700 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all" 
                 rows={4} 
                 placeholder="Tell us about your photographic interests" 
-              />
+              />*/}
               <motion.button 
                 variants={fieldVariants}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-full bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-gray-200 transition-colors"
-              >
-                Request to Join
+              ><a href="">Request to Join</a>
               </motion.button>
             </motion.form>
           </motion.div>
