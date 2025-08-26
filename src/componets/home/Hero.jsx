@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { heroApi } from '../../services/api.js'; // <-- IMPORTANT: Update this path
@@ -20,6 +21,7 @@ const Hero = () => {
   const [heroImages, setHeroImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
     const fetchHeroImages = async () => {
@@ -48,22 +50,36 @@ const Hero = () => {
     fetchHeroImages();
   }, []);
 
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     if (heroImages.length === 0) return;
     setImageIndex((prev) => (prev + 1) % heroImages.length);
-  };
+  }, [heroImages.length]);
 
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
     if (heroImages.length === 0) return;
     setImageIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length);
-  };
+  }, [heroImages.length]);
   
   useEffect(() => {
     if (heroImages.length > 0) {
       const timer = setInterval(nextImage, 6000);
       return () => clearInterval(timer);
     }
-  }, [heroImages.length, imageIndex]);
+  }, [heroImages.length, nextImage]);
+
+  // Reset image loaded flag when the index changes so we can fade the next image in
+  useEffect(() => {
+    setIsImageLoaded(false);
+  }, [imageIndex]);
+
+  // Preload the next image to avoid visible progressive paint on transition
+  useEffect(() => {
+    if (heroImages.length > 0) {
+      const nextIdx = (imageIndex + 1) % heroImages.length;
+      const img = new Image();
+      img.src = heroImages[nextIdx]?.imageUrl;
+    }
+  }, [imageIndex, heroImages]);
 
   if (loading) {
     return <div className="h-screen w-full flex items-center justify-center bg-black text-white">Loading...</div>;
@@ -92,13 +108,22 @@ const Hero = () => {
         >
            {/* This now works because your API provides 'imageUrl' */}
            <img
+            key={imageIndex}
             src={currentImage.imageUrl} 
             alt={currentImage.title}
             loading="eager"
             decoding="async"
             fetchpriority="high"
-            className="w-full h-full object-cover"
+            onLoad={() => setIsImageLoaded(true)}
+            className={`w-full h-full object-cover transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
+           {/* Light skeleton/placeholder while image decodes */}
+           {!isImageLoaded && (
+             <div className="absolute inset-0 bg-neutral-900">
+               <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/60 via-neutral-900/60 to-black/60" />
+               <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-black/30 via-black/10 to-black/30" />
+             </div>
+           )}
            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/60" />
         </motion.div>
       </AnimatePresence>
