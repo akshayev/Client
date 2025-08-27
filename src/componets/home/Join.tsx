@@ -112,7 +112,7 @@ const Join = () => {
              <button
               className="group relative w-full flex justify-center items-center gap-2 py-3 px-5 mt-4 bg-sky-600 rounded-lg text-lg font-semibold hover:bg-sky-500 transition-all duration-300 disabled:cursor-not-allowed disabled:bg-neutral-600"
             >
-              <a href="https://cucek-photography-club.vercel.app/join" >Join</a>
+              <a href="https://cucek-photography-club.vercel.app/join">Join</a>
             </button>
             
             </motion.form>
