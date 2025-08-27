@@ -109,13 +109,12 @@ const Join = () => {
                 rows={4} 
                 placeholder="Tell us about your photographic interests" 
               />*/}
-              <motion.button 
-                variants={fieldVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-gray-200 transition-colors"
-              >          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfG_bRs3i6En3YK7ML31eWdhtXv29CkXbYAJmZ_fV06cxeCqw/viewform?usp=send_form" target="_blank" rel="noopener noreferrer">Request to Join</a>
-              </motion.button>
+             <button
+              className="group relative w-full flex justify-center items-center gap-2 py-3 px-5 mt-4 bg-sky-600 rounded-lg text-lg font-semibold hover:bg-sky-500 transition-all duration-300 disabled:cursor-not-allowed disabled:bg-neutral-600"
+            >
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSfG_bRs3i6En3YK7ML31eWdhtXv29CkXbYAJmZ_fV06cxeCqw/viewform?usp=send_form" target="_blank" rel="noopener noreferrer">Request to Join</a>
+            </button>
+            
             </motion.form>
           </motion.div>
         </div>
