@@ -134,7 +134,7 @@ const Testimonials = () => {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.8 }}
         >
-          What Our Members Say
+          What Our People Say
         </motion.h2>
 
         <motion.div className="relative h-80 md:h-72" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
@@ -160,7 +160,7 @@ const Testimonials = () => {
               <blockquote className="flex-grow text-lg md:text-xl italic text-gray-300">"{currentTestimonial.text}"</blockquote>
               <footer className="mt-4">
                 <p className="font-bold text-white">{currentTestimonial.name}</p>
-                <p className="text-sm text-gray-400">Club Member</p>
+                {/* <p className="text-sm text-gray-400">Club Member</p> */}
               </footer>
             </motion.div>
           </AnimatePresence>
