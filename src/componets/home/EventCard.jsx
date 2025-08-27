@@ -14,7 +14,7 @@ export const EventCard = ({ event, index }) => {
   return (
     <motion.div
       key={event.id}
-      className="relative bg-zinc-900 rounded-2xl overflow-hidden shadow-lg border border-zinc-800 group"
+      className="relative bg-zinc-900 rounded-2xl overflow-hidden shadow-lg border border-zinc-800 group h-full"
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
@@ -26,7 +26,7 @@ export const EventCard = ({ event, index }) => {
       <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
       
       {/* Responsive Event Image & Date Badge */}
-      <div className="relative h-52 sm:h-60 overflow-hidden">
+      <div className="relative h-40 overflow-hidden">
         <img
           src={event.image}
           alt={event.title}
@@ -40,11 +40,11 @@ export const EventCard = ({ event, index }) => {
       </div>
 
       {/* Responsive Event Content */}
-      <div className="p-5 sm:p-6 md:p-8">
-        <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">
+      <div className="p-4">
+        <h3 className="text-lg font-bold mb-2 text-white line-clamp-2">
           {event.title}
         </h3>
-        <p className="text-gray-400 mb-6 leading-relaxed text-sm sm:text-base">
+        <p className="text-gray-400 mb-3 leading-relaxed text-sm line-clamp-3">
           {event.description}
         </p> 
       </div>
