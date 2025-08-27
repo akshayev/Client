@@ -114,7 +114,7 @@ const Join = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-full bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-gray-200 transition-colors"
-              ><a href="">Request to Join</a>
+              >          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfG_bRs3i6En3YK7ML31eWdhtXv29CkXbYAJmZ_fV06cxeCqw/viewform?usp=send_form" target="_blank" rel="noopener noreferrer">Request to Join</a>
               </motion.button>
             </motion.form>
           </motion.div>
