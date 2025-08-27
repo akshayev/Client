@@ -2,11 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaInstagram, FaBehance, FaEnvelope } from 'react-icons/fa';
 
+
 // --- Data for Footer Links (easy to manage) ---
 const footerLinks = [
-  { title: 'About', href: '#about' },
-  { title: 'Works', href: '#works' },
-  { title: 'Join', href: '#join' },
+  { title: 'Home', href: '/' },
+  { title: 'About', href: '/about' },
+  { title: 'Works', href: '/works' },
+  { title: 'Join', href: '/join' },
 ];
 
 const socialLinks = [
