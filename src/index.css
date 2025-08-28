@@ -22,7 +22,6 @@ body {
   /* An alternative for older IE versions */
   -ms-overflow-style: none;
 }
-
 /* Performance-focused utilities */
 @layer utilities {
   /* Optimize image rendering */
@@ -91,3 +90,34 @@ body {
     -webkit-line-clamp: 3;
   }
 }
+
+body {
+  background-color: #0A0A0A; /* A deep, near-black for the background */
+  font-family: 'Inter', sans-serif;
+  color: #E2E8F0; /* Off-white for better readability */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .avoid-break {
+    break-inside: avoid-column;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+  
