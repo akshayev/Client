@@ -20,6 +20,7 @@ const GalleryPage = lazy(() => import('./pages/GalleryPage.jsx'));
 const JoinPage = lazy(() => import('./pages/JoinPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
+const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/aaravam" element={<Aaravam />} />
               <Route 
                 path="/admin" 
                 element={<ProtectedRoute><AdminPage /></ProtectedRoute>} 
@@ -45,7 +47,6 @@ function App() {
             </Routes>
           </Suspense>
         </main>
-
         <Footer />
       </AuthProvider>
     </div>

@@ -13,6 +13,7 @@
     "@headlessui/react": "^2.2.7",
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
+    "@splidejs/splide": "^4.1.4",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.11.0",
     "framer-motion": "^12.23.12",
@@ -24,6 +25,7 @@
     "react-pageflip": "^2.0.3",
     "react-router-dom": "^7.7.1",
     "react-toastify": "^11.0.5",
+    "split-type": "^0.3.4",
     "tailwindcss": "^4.1.11",
     "uuid": "^11.1.0"
   },
