@@ -13,7 +13,6 @@ import LoadingPage from './pages/LoadingPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import ProtectedRoute from './componets/admin/ProtectedRoute.jsx';
 
-
 // Your Lazily Loaded Pages
 const Home = lazy(() => import('./pages/Home.jsx'));
 const AboutPage = lazy(() => import('./pages/About.jsx'));
