@@ -1,165 +1,30 @@
 @import "tailwindcss";
 
+/*
+  Global styles for the body and root elements.
+  Consolidated scrollbar hiding rules for better readability.
+*/
 body,
 #root {
   overflow-x: hidden;
 }
 
 html {
-  /* For Firefox */
+  /* Hides scrollbar for Firefox */
   scrollbar-width: none;
 
-  /* For Internet Explorer and Edge */
+  /* Hides scrollbar for Internet Explorer and Edge */
   -ms-overflow-style: none;
 }
 
-/* For WebKit-based browsers (Chrome, Safari, and Opera) */
+/* Hides scrollbar for WebKit-based browsers (Chrome, Safari, Opera) */
 html::-webkit-scrollbar {
   display: none;
 }
 
-body {
-  /* An alternative for older IE versions */
-  -ms-overflow-style: none;
-}
-/* Performance-focused utilities */
-@layer utilities {
-  /* Optimize image rendering */
-  .image-optimized {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
-
-  /* Better focus indicators for accessibility */
-  .focus-visible:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-
-  /* Optimize animations for GPU */
-  .gpu-accelerated {
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  /* Shimmer animation for loading states */
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  .animate-shimmer {
-    animation: shimmer 2s infinite;
-  }
-
-  /* Hide scrollbars for horizontal scrolling */
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
-  }
-
-  /* Line clamp utilities for text truncation */
-  .line-clamp-1 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-
-  .line-clamp-2 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  .line-clamp-3 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-}
-
-/* Performance-focused utilities */
-@layer utilities {
-  /* Optimize image rendering */
-  .image-optimized {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
-
-  /* Better focus indicators for accessibility */
-  .focus-visible:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-
-  /* Optimize animations for GPU */
-  .gpu-accelerated {
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  /* Shimmer animation for loading states */
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-
-  .animate-shimmer {
-    animation: shimmer 2s infinite;
-  }
-
-  /* Hide scrollbars for horizontal scrolling */
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
-  }
-
-  /* Line clamp utilities for text truncation */
-  .line-clamp-1 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-
-  .line-clamp-2 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  .line-clamp-3 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-}
-
+/*
+  Define base styles for the body.
+*/
 body {
   background-color: #0A0A0A; /* A deep, near-black for the background */
   font-family: 'Inter', sans-serif;
@@ -168,16 +33,54 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
+  A single, consolidated layer for all custom utilities.
+  This avoids duplication and keeps the code organized.
+*/
 @layer utilities {
-  .avoid-break {
-    break-inside: avoid-column;
-  }
-}
+  /*
+    Performance-focused utilities
+  */
 
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 1s ease-in-out forwards;
+  /* Optimize image rendering for sharper images */
+  .image-optimized {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    backface-visibility: hidden;
+    transform: translateZ(0);
   }
+
+  /* Better focus indicators for accessibility */
+  .focus-visible:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Force hardware acceleration for smoother animations */
+  .gpu-accelerated {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /*
+    Animation utilities
+  */
+
+  /* Shimmer animation for loading states */
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+
+  /* Fade-in animation */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -187,5 +90,50 @@ body {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-in-out forwards;
+  }
+
+
+  /*
+    Layout and text utilities
+  */
+
+  /* Hide scrollbars for a specific element */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;     /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;             /* Safari and Chrome */
+  }
+
+  /* Line clamp utilities for text truncation */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Utility to prevent breaking inside an element, useful for columns */
+  .avoid-break {
+    break-inside: avoid-column;
   }
 }
