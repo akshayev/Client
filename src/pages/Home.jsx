@@ -7,6 +7,7 @@ import Event from "../componets/home/Event"
 import Team from "../componets/home/Team"
 import AboutSection from "../componets/home/About"
 import SocialFeed from "../componets/home/SocialFeed"
+import OnamBanner from "../componets/banners/OnamBanner"
 
 function Home() {
   return (
@@ -16,6 +17,7 @@ function Home() {
           <Hero />
           <div id="work" className="min-h-screen text-center">
             <AboutSection />
+            <OnamBanner />
             <Gallery />
             <Event />
             <Team />
