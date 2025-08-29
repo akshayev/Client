@@ -3,7 +3,7 @@ import WorkGrid from '../componets/aaravam/WorkGrid'; // Ensure this path is cor
 
 function App() {
   return (
-    <div className="min-h-screen mt-30 p-4 sm:p-8 md:p-12">
+    <div className="min-h-screen mt-30 p-4 sm:p-8 md:p-12 mb-30">
       <header className="mb-8 md:mb-12 text-center md:text-left">
         {/* --- GRADIENT UPDATED --- */}
         {/* Switched from blue/cyan to a festive amber/orange/emerald gradient */}
