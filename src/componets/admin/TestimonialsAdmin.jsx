@@ -59,11 +59,19 @@ const TestimonialsAdmin = ({ items, onDataChange }) => (
         initialFormState={{ id: null, name: '', text: '', imageLink: '' }}
         api={testimonialsApi}
         onDataChange={onDataChange}
+        // Map FROM the API structure TO the form/UI structure
+        mapFromApi={item => ({
+            id: item.id,
+            name: item.name,
+            text: item.text,
+            imageLink: item.imageUrl, // Map imageUrl -> imageLink
+        })}
+        // Map FROM the form/UI structure back TO the API structure
         mapToApi={item => ({
             id: item.id,
             name: item.name,
             text: item.text,
-            imageUrl: item.imageLink,
+            imageUrl: item.imageLink, // Map imageLink -> imageUrl
         })}
     />
 );

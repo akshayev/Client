@@ -39,11 +39,19 @@ const HeroAdmin = ({ items, onDataChange }) => (
     initialFormState={{ id: null, title: '', subtitle: '', imageLink: '' }}
     api={heroApi}
     onDataChange={onDataChange}
+    // Map FROM the API structure TO the form/UI structure
+    mapFromApi={item => ({
+        id: item.id,
+        title: item.title,
+        subtitle: item.subtitle,
+        imageLink: item.imageUrl, // Map imageUrl -> imageLink
+    })}
+    // Map FROM the form/UI structure back TO the API structure
     mapToApi={item => ({
         id: item.id,
         title: item.title,
         subtitle: item.subtitle,
-        imageUrl: item.imageLink, // Map to API field name
+        imageUrl: item.imageLink, // Map imageLink -> imageUrl
     })}
   />
 );

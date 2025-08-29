@@ -51,11 +51,19 @@ const EventsAdmin = ({ items, onDataChange }) => (
         }}
         api={eventsApi}
         onDataChange={onDataChange}
+        // Map FROM the API structure TO the form/UI structure
+        mapFromApi={item => ({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            imageLink: item.imageUrl, // Map imageUrl -> imageLink
+            pageLink: item.pageLink,
+        })}
         mapToApi={item => ({
             id: item.id,
             title: item.title,
             description: item.description,
-            imageUrl: item.imageLink,
+            imageUrl: item.imageLink, // Map imageLink -> imageUrl
             pageLink: item.pageLink,
             // Add a default for required fields not in the form
             eventDate: item.eventDate || new Date().toISOString(),
