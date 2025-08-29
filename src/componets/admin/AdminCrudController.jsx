@@ -11,6 +11,7 @@ const AdminCrudController = ({
   api, // The specific API service (e.g., heroApi, teamApi)
   onDataChange, // Function to refetch data after a change
   mapToApi, // Optional function to map frontend state to API format
+  mapFromApi, // Optional function to map API data to frontend format
 }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(initialFormState);
@@ -27,8 +28,9 @@ const AdminCrudController = ({
 
   const handleEdit = (item) => {
     setIsEditing(true);
-    // Use the spread to avoid directly mutating the original item from the list
-    setCurrentItem({ ...item });
+    // Use mapFromApi if provided, otherwise use the item as is
+    const mappedItem = mapFromApi ? mapFromApi(item) : item;
+    setCurrentItem({ ...mappedItem });
     setIsFormVisible(true);
     setError(null);
   };
