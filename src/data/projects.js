@@ -7,13 +7,12 @@ export const projects = [
   { id: 'g6', src: 'https://i.postimg.cc/zGHLTCjq/DSC08767.jpg' },
   { id: 'g7', src: 'https://i.postimg.cc/pTWXczDh/DSC08786.jpg' },
   { id: 'g8', src: 'https://i.postimg.cc/zBxDsvjd/DSC08787.jpg' },
+  { id: 'g9', src: 'https://i.postimg.cc/prZ2fT9Q/DSC08788.jpg' },
+  { id: 'g10', src: 'https://i.postimg.cc/zBTDfp8c/DSC08789.jpg' },
+  { id: 'g11', src: 'https://i.postimg.cc/N03fYZqX/DSC08793.jpg' },
+  { id: 'g12', src: 'https://i.postimg.cc/K8s8pR0J/DSC08798.jpg' },
+  { id: 'g13', src: 'https://i.postimg.cc/6pYxYgpK/DSC08804.jpg' },
+  { id: 'g14', src: 'https://i.postimg.cc/RV1BnNrN/DSC08806.jpg' },
+  { id: 'g15', src: 'https://i.postimg.cc/ZKxG523N/DSC08815.jpg' },
+  { id: 'g16', src: 'https://i.postimg.cc/mD6rJhZb/DSC08827.jpg' },
 ]
-
-
-
-
-
-
-
-
-

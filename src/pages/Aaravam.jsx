@@ -35,7 +35,7 @@ function App() {
               focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-black
             "
           >
-            Go Find Your Photos
+            For more photos
           </a>
         </div>
       </header>
