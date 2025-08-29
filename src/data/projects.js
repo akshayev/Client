@@ -1,5 +1,4 @@
 export const projects = [
-  { id: 'g1', src: 'https://i.postimg.cc/MTd9QDvt/DSC08694.jpg' },
   { id: 'g2', src: 'https://i.postimg.cc/PrB2YN5G/DSC08699.jpg' },
   { id: 'g3', src: 'https://i.postimg.cc/fyyBj9ds/DSC08713.jpg' },
   { id: 'g4', src: 'https://i.postimg.cc/9F4LDyVt/DSC08714.jpg' },
