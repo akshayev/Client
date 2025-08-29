@@ -22,7 +22,7 @@ function App() {
         {/* --- BUTTON AND GLOW EFFECT UPDATED --- */}
         <div className="mt-8">
           <a
-            href="https://postimg.cc/gallery/GpDn4gC"
+            href="https://drive.google.com/drive/folders/1Eab3BHur2kJV9q9sQ40UftVVzoY7jCyE?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="
