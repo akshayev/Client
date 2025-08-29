@@ -3,6 +3,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Suspense, lazy } from 'react';
+import { Analytics } from "@vercel/analytics/react"
 
 // Your components
 import Nav from './componets/Navbar.jsx';
@@ -26,6 +27,7 @@ function App() {
   return (
     // FIX 1: Make this div a flex container that is at least the height of the screen
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
+      <Analytics/>
       <AuthProvider>
         <Nav /> 
         <ToastContainer />
