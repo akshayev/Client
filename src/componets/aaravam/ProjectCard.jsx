@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import useDownloadFile from '../../hooks/useDownloadFile';
 
 // Icon with a festive gold color
 const DownloadIcon = () => (
@@ -17,6 +18,7 @@ const DownloadIcon = () => (
 
 const ProjectCard = ({ project }) => {
   const cardRef = useRef(null);
+  const downloadFile = useDownloadFile();
 
   // The 3D hover/tilt animation logic (no changes needed here)
   useLayoutEffect(() => {
@@ -54,9 +56,12 @@ const ProjectCard = ({ project }) => {
       >
         <img src={project.src} alt={project.title} className="w-full h-auto object-cover rounded-lg" />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-colors duration-300 flex items-center justify-center">
-          <a href="https://postimg.cc/gallery/GpDn4gC" target="_blank" rel="noopener noreferrer" className="opacity-0 group-hover:opacity-100 transition-opacity p-4 rounded-full hover:bg-white/10" onClick={(e) => e.stopPropagation()}>
+          {/*<a href="https://postimg.cc/gallery/GpDn4gC" target="_blank" rel="noopener noreferrer" className="opacity-0 group-hover:opacity-100 transition-opacity p-4 rounded-full hover:bg-white/10" onClick={(e) => e.stopPropagation()}>
             <DownloadIcon />
-          </a>
+          </a>*/}
+          <button onClick={() => downloadFile(project.src)} className="opacity-0 group-hover:opacity-100 transition-opacity p-4 rounded-full hover:bg-white/10">
+            <DownloadIcon />
+          </button>
         </div>
       </div>
       
