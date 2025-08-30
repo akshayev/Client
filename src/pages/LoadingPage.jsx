@@ -1,56 +1,59 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// This variant controls the container and orchestrates the animation of its children.
+// Orchestrates the animation of its children, staggering their appearance.
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      // The `staggerChildren` property creates a sequence effect.
-      // Each child's animation will be delayed by this amount.
       staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
   },
 };
 
-// This variant defines how each individual letter animates.
-const letterVariants = {
+// Defines the animation for each individual word.
+const itemVariants = {
   hidden: {
     opacity: 0,
-    y: 50, // Start 50px below its final position
-    filter: 'blur(12px)', // Start with a heavy blur
+    y: 20,
   },
   visible: {
     opacity: 1,
-    y: 0, // Animate to its final Y position
-    filter: 'blur(0px)', // Animate to be sharp and in focus
+    y: 0,
     transition: {
-      // Defines the physics and duration of the animation for each letter
-      type: 'spring',
-      damping: 12,
-      stiffness: 100,
-      duration: 0.8,
+      duration: 0.6,
+      ease: "easeInOut", // <-- CORRECTED: Replaced the invalid cubic-bezier array
     },
   },
 };
 
 const LoadingPage = () => {
+  const title = "CUCEK PHOTOGRAPHY CLUB";
+  const words = title.split(" ");
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-neutral-950 text-white font-sans overflow-hidden">
+    <div className="flex items-center justify-center min-h-screen bg-neutral-900 text-neutral-200 font-sans overflow-hidden p-4">
       
-      {/* Container for the letters, which applies the staggered animation */}
-      <motion.div
-        className="flex gap-4 text-8xl font-bold tracking-widest text-sky-400"
+      {/* Container for the words. It's a flex container that will wrap on smaller screens. */}
+      <motion.h1
+        className="flex flex-wrap justify-center gap-x-4 sm:gap-x-5 text-5xl sm:text-6xl md:text-7xl font-semibold tracking-normal text-center"
         variants={containerVariants}
-        initial="hidden" // The initial state before animation
-        animate="visible" // The state to animate to
+        initial="hidden"
+        animate="visible"
+        aria-label={title} // Improves accessibility
       >
-        {/* Each letter is a motion component that uses the letterVariants */}
-        <motion.span variants={letterVariants}>C</motion.span>
-        <motion.span variants={letterVariants}>P</motion.span>
-        <motion.span variants={letterVariants}>C</motion.span>
-      </motion.div>
+        {words.map((word, index) => (
+          <motion.span
+            key={index}
+            variants={itemVariants}
+            className="inline-block"
+          >
+            {word}
+          </motion.span>
+        ))}
+      </motion.h1>
     </div>
   );
 };

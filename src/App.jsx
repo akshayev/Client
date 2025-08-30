@@ -34,7 +34,7 @@ function App() {
         
         {/* FIX 2: This 'main' element will grow to fill all available space */}
         <main className="flex-1">
-          <Suspense fallback={<AdminLoginPage />}>
+          <Suspense fallback={<LoadingPage />}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
