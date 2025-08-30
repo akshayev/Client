@@ -19,7 +19,7 @@ const Home = lazy(() => import('./pages/Home.jsx'));
 const AboutPage = lazy(() => import('./pages/About.jsx'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage.jsx'));
 const JoinPage = lazy(() => import('./pages/JoinPage.jsx'));
-const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
+const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
 
@@ -34,13 +34,13 @@ function App() {
         
         {/* FIX 2: This 'main' element will grow to fill all available space */}
         <main className="flex-1">
-          <Suspense fallback={<LoadingPage />}>
+          <Suspense fallback={<AdminLoginPage />}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/join" element={<JoinPage />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
               <Route 
                 path="/admin" 
