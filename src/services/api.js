@@ -77,4 +77,14 @@ export const galleryApi = {
   delete: (id) => remove('/gallery', id),
 };
 
+export const videoApi = {
+  //function for the video page.
+  getForEvent: (eventId) => get(`/events/${eventId}/videos`),
+
+  getById: (videoId) => get(`/video/${videoId}`),
+  create: (data) => create('/video', data),
+  update: (videoId, data) => apiClient.patch(`/video/${videoId}`, data),
+  delete: (videoId) => remove('/video', videoId),
+};
+
 export default apiClient;
