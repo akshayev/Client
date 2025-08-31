@@ -44,6 +44,7 @@ export const heroApi = {
 
 export const eventsApi = {
   getAll: () => get('/events'),
+  getOne: (id) => get(`/events/${id}`), // object to handle fetching a single event
   create: (data) => create('/events', data),
   update: (id, data) => update('/events', id, data),
   delete: (id) => remove('/events', id),

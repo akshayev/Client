@@ -22,17 +22,16 @@ const JoinPage = lazy(() => import('./pages/JoinPage.jsx'));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
+const EventPage = lazy(() => import('./pages/EventPage.jsx'));
 
 function App() {
   return (
-    // FIX 1: Make this div a flex container that is at least the height of the screen
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
       <Analytics/>
       <AuthProvider>
         <Nav /> 
         <ToastContainer />
         
-        {/* FIX 2: This 'main' element will grow to fill all available space */}
         <main className="flex-1">
           <Suspense fallback={<LoadingPage />}>
             <Routes>
@@ -42,6 +41,10 @@ function App() {
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
+
+              {/* 2. ADD DYNAMIC ROUTE FOR EVENTS */}
+              <Route path="/event/:eventId" element={<EventPage />} />
+
               <Route 
                 path="/admin" 
                 element={<ProtectedRoute><AdminPage /></ProtectedRoute>} 
