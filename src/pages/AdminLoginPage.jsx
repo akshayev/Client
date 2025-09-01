@@ -16,7 +16,7 @@ const AdminLoginPage = () => {
         setLoading(true);
         try {
             await login({ username, password });
-            navigate('/'); // Redirect to the home page after successful login
+            navigate('/admin'); // Redirect to the admin page after successful login
         } catch (err) {
             const errorMessage = err.response?.data?.message || "Login failed. Please check your credentials.";
             setError(errorMessage);
