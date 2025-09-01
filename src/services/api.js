@@ -77,4 +77,19 @@ export const galleryApi = {
   delete: (id) => remove('/gallery', id),
 };
 
+export const usersApi = {
+  // Use the generic 'get' but include params for pagination
+  getAll: (page = 1, limit = 10) => get(`/users?page=${page}&limit=${limit}`),
+  
+  // These fit the generic helper functions perfectly
+  create: (data) => create('/users', data),
+  update: (id, data) => update('/users', id, data),
+  delete: (id) => remove('/users', id),
+  
+  // These are custom PATCH requests that don't fit the generic helpers
+  // They match the 'Toggle User Status' and 'Change User Role' Postman endpoints
+  updateStatus: (id, isActive) => apiClient.patch(`/users/${id}/status`, { isActive }),
+  updateRole: (id, role) => apiClient.patch(`/users/${id}/role`, { role }),
+};
+
 export default apiClient;

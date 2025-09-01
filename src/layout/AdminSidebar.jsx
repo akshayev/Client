@@ -15,6 +15,7 @@ export const SIDEBAR_ITEMS = [
     { id: 'team', label: 'Team', icon: <FiUsers size={20} /> },
     { id: 'testimonials', label: 'Testimonials', icon: <FiMessageSquare size={20} /> },
     { id: 'instagram', label: 'Instagram', icon: <FiInstagram size={20} /> },
+    { id: 'users', label: 'User Management', icon: <FiUsers size={20} /> },
 ];
 
 const TabButton = ({ id, label, icon, activeTab, onClick }) => (

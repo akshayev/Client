@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
     galleryApi, heroApi, eventsApi, teamApi,
-    testimonialsApi, instagramApi
+    testimonialsApi, instagramApi, usersApi
 } from '../services/api.js';
+
 
 // Import the admin components (assuming they are in the correct path)
 import GalleryAdmin from '../componets/admin/GalleryAdmin.jsx';
@@ -11,6 +12,7 @@ import EventsAdmin from '../componets/admin/EventsAdmin.jsx';
 import TeamAdmin from '../componets/admin/TeamAdmin.jsx';
 import TestimonialsAdmin from '../componets/admin/TestimonialsAdmin.jsx';
 import InstagramAdmin from '../componets/admin/InstagramAdmin.jsx';
+import UserManagementAdmin from '../componets/admin/UserManagementAdmin.jsx';
 
 // NEW: Import the redesigned layout components
 import AdminSidebar, { SIDEBAR_ITEMS } from '../layout/AdminSidebar.jsx';
@@ -25,6 +27,7 @@ const API_MAP = {
     team: teamApi,
     testimonials: testimonialsApi,
     instagram: instagramApi,
+    users: usersApi,
 };
 
 // --- Reusable Content Panel Component ---
@@ -49,6 +52,7 @@ const ContentPanel = ({ activeTab, items, loading, error, onDataChange }) => {
         case 'team': return <TeamAdmin items={items} onDataChange={onDataChange} />;
         case 'testimonials': return <TestimonialsAdmin items={items} onDataChange={onDataChange} />;
         case 'instagram': return <InstagramAdmin items={items} onDataChange={onDataChange} />;
+        case 'users': return <UserManagementAdmin items={items} onDataChange={onDataChange} />;
         default: return (
             <div className="flex items-center justify-center h-64">
                  <div className="text-center text-slate-500">Select a category to manage.</div>
