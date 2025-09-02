@@ -17,7 +17,7 @@ function Home() {
           <Hero />
           <div id="work" className="min-h-screen text-center relative">
             <AboutSection />
-            <OnamBanner />
+            {/*<OnamBanner />*/}
             <Gallery />
             <Event />
             <Team />
