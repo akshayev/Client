@@ -10,7 +10,7 @@ import JoinSection from '../componets/about/JoinSection';
 
 const AboutPage = () => {
   return (
-    <div className="bg-black">
+    <div className="bg-black mt-52">
       <HeroSection />
       <PhilosophySection />
       <CollectiveSection />
