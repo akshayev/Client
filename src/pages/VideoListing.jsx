@@ -12,13 +12,7 @@ const VideoCard = ({ video }) => {
       </div>
       <div className="p-4">
         <h3 className="text-base font-semibold text-gray-100 leading-snug">{video.title}</h3>
-        {/* Details like channelName, views, uploadDate are not in the video model yet, so they are commented out */}
-        {/* <p className="text-sm text-zinc-400 mt-2">{video.channelName}</p> */}
-        {/* <div className="flex items-center gap-2 text-sm text-zinc-400 mt-1"> */}
-        {/* <span>{video.views} views</span> */}
-        {/* <span>•</span> */}
-        {/* <span>{video.uploadDate}</span> */}
-        {/* </div> */}
+        
       </div>
     </div>
   );
@@ -62,8 +56,7 @@ export default function VideoListPage() {
     const fetchVideosForEvent = async () => {
         setLoadingVideos(true);
         try {
-            // This now calls the new API function we planned
-            // Note: This requires the backend endpoint to exist!
+            //calls the API function we planned
             const response = await videoApi.getForEvent(selectedEvent.id);
             setVideos(response.data.data || []);
         } catch (e) {
