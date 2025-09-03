@@ -1,6 +1,6 @@
 // src/App.jsx
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Suspense, lazy } from 'react';
 import { Analytics } from "@vercel/analytics/react"
@@ -25,18 +25,25 @@ const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
 const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
 
 function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname === '/admin';
+
   return (
     // FIX 1: Make this div a flex container that is at least the height of the screen
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
       <Analytics/>
       <AuthProvider>
-        <Nav /> 
+        {!isAdminRoute && <Nav />}
         <ToastContainer />
         
         {/* FIX 2: This 'main' element will grow to fill all available space */}
         <main className="flex-1">
           <Suspense fallback={<LoadingPage />}>
             <Routes>
+              <Route 
+                path="/admin" 
+                element={<ProtectedRoute><AdminPage /></ProtectedRoute>} 
+              />
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
@@ -44,10 +51,6 @@ function App() {
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/videos" element={<VideoListing />} />
-              <Route 
-                path="/admin" 
-                element={<ProtectedRoute><AdminPage /></ProtectedRoute>} 
-              />
             </Routes>
           </Suspense>
         </main>
