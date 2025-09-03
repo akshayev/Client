@@ -1,3 +1,5 @@
+// src/services/api.js
+
 import axios from 'axios';
 
 // Create an Axios instance with a base URL
@@ -11,7 +13,8 @@ const apiClient = axios.create({
 // Interceptor to add the auth token to every request if it exists
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('adminToken'); // Assumes you store the token in localStorage after login
+    // Assumes you store the token in localStorage after admin login
+    const token = localStorage.getItem('adminToken'); 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -33,7 +36,6 @@ export const authApi = {
   verifyToken: () => apiClient.get('/auth/verify'),
   getMe: () => apiClient.get('/auth/me'),
 };
-
 
 export const heroApi = {
   getAll: () => get('/hero'),
@@ -72,19 +74,23 @@ export const instagramApi = {
 
 export const galleryApi = {
   getAll: () => get('/gallery'),
-  create: (data) => create('/gallery', data), // API supports URL-only creation which matches the UI
+  create: (data) => create('/gallery', data),
   update: (id, data) => update('/gallery', id, data),
   delete: (id) => remove('/gallery', id),
 };
 
-export const videoApi = {
-  //function for the video page.
-  getForEvent: (eventId) => get(`/events/${eventId}/videos`),
 
+// ====================================================================
+// NEW & COMPLETE VIDEO API SERVICE BASED ON YOUR POSTMAN COLLECTION
+// ====================================================================
+export const videoApi = {
+  getAll: () => get('/video'),
   getById: (videoId) => get(`/video/${videoId}`),
   create: (data) => create('/video', data),
   update: (videoId, data) => apiClient.patch(`/video/${videoId}`, data),
   delete: (videoId) => remove('/video', videoId),
+  getForEvent: (eventId) => get(`/events/${eventId}/videos`),
 };
+// ====================================================================
 
 export default apiClient;
