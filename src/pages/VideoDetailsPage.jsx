@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaShareAlt, FaArrowUp } from 'react-icons/fa';
 import { videoApi } from '../services/api';
+import { toast } from 'react-toastify';
 
 const UpVote = () => <FaArrowUp className="h-6 w-6" />;
 const ShareIcon = () => <FaShareAlt className="h-6 w-6" />;
@@ -45,7 +46,7 @@ function VideoDetailsPage() {
                 // Fetch all videos to find related ones
                 const allVideosResponse = await videoApi.getAll(1, 100); // Or use homepage endpoint
                 const allVideos = allVideosResponse.data?.data?.data || [];
-                
+
                 // Filter for suggested videos: same event, but not the current video
                 const related = allVideos.filter(
                     (v) => v.event_name === currentVideo.event_name && v.id !== currentVideo.id
@@ -67,7 +68,7 @@ function VideoDetailsPage() {
     if (status === 'loading') {
         return (
             <div className="flex items-center justify-center h-screen bg-neutral-900">
-                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white"></div>
             </div>
         );
     }
@@ -75,9 +76,36 @@ function VideoDetailsPage() {
     if (status === 'error' || !videoData) {
         return <div className="text-white text-center p-10">{error || "Video not found."}</div>;
     }
-    
+
     // --- Main Render ---
     const embedUrl = getYouTubeEmbedUrl(videoData.videoLink);
+
+    // Share functionality
+    const handleShare = async () => {
+        const shareData = {
+            title: videoData.title,
+            text: `Check out this video: ${videoData.title}`,
+            url: window.location.href // Gets the current page URL
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+                console.log('Video shared successfully');
+            } catch (err) {
+                console.error('Share failed:', err);
+            }
+        } else {
+            // Fallback for desktop browsers
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                toast.success('Link copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy link:', err);
+                toast.error('Could not copy link.');
+            }
+        }
+    };
 
     return (
         <div className="bg-neutral-900 text-white min-h-screen p-4 sm:p-6 lg:p-8">
@@ -88,18 +116,18 @@ function VideoDetailsPage() {
                 <div className="w-full lg:w-2/3">
                     {/* Video Player */}
                     <div className="aspect-video w-full">
-                       {embedUrl ? (
-                         <iframe
-                            className="w-full h-full rounded-xl shadow-lg"
-                            src={embedUrl}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
-                       ) : (
-                        <div className="w-full h-full rounded-xl shadow-lg bg-black flex items-center justify-center">Invalid Video URL</div>
-                       )}
+                        {embedUrl ? (
+                            <iframe
+                                className="w-full h-full rounded-xl shadow-lg"
+                                src={embedUrl}
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        ) : (
+                            <div className="w-full h-full rounded-xl shadow-lg bg-black flex items-center justify-center">Invalid Video URL</div>
+                        )}
                     </div>
 
                     {/* Video Title */}
@@ -116,7 +144,7 @@ function VideoDetailsPage() {
                             <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full font-semibold">
                                 <UpVote /> {videoData.upvotes || 0}
                             </button>
-                            <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full font-semibold">
+                            <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full font-semibold" onClick={handleShare}>
                                 <ShareIcon /> Share
                             </button>
                         </div>
@@ -124,7 +152,7 @@ function VideoDetailsPage() {
 
                     {/* Description Box */}
                     {videoData.description && (
-                         <div className="bg-neutral-800 p-4 rounded-lg mt-6">
+                        <div className="bg-neutral-800 p-4 rounded-lg mt-6">
                             <p className="mt-2 text-gray-300 whitespace-pre-line">
                                 {videoData.description}
                             </p>
