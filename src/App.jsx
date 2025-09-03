@@ -56,19 +56,19 @@ function App() {
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/event/:eventId" element={<EventPage />} />
-              {/*<Route path="/videos" element={<VideoListing />} />
-              <Route path="/video/:id" element={<VideoDetailsPage />} />*/}
               <Route path="*" element={<NotFoundPage />} />
+              {/*<Route path="/videos" element={<VideoListing />} />
+              <Route path="/video/:id" element={<VideoDetailsPage />} />
               <Route path="/members/:id" element={<MemberPortfolio />} />
               <Route path="/upload" element={<PhotoUploadPage />} />
               <Route path="/auth" element={<LoginPage />} />
-              {/*<Route path="/store" element={<StorePage />} />*/}
+              <Route path="/store" element={<StorePage />} />*/}
             </Routes>
           </Suspense>
         </main>
         <Footer />
       </AuthProvider>
-    </div>
+    </div>  
   );
 }
 
