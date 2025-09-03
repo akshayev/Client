@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 // highlight-end
 import { videoApi } from '../services/api';
 
-import { Link } from 'react-router-dom';
-
 // --- (No changes to VideoCard sub-component) ---
 const VideoCard = ({ video }) => {
   const getYouTubeId = (url) => {
