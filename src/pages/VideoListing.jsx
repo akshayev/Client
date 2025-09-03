@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 // highlight-end
 import { videoApi } from '../services/api';
 
+import { Link } from 'react-router-dom';
+
 // --- (No changes to VideoCard sub-component) ---
 const VideoCard = ({ video }) => {
   const getYouTubeId = (url) => {
@@ -18,18 +20,22 @@ const VideoCard = ({ video }) => {
   };
 
   const videoId = getYouTubeId(video.videoLink);
-  const thumbnailUrl = videoId 
+  const thumbnailUrl = videoId
     ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
     : 'https://placehold.co/1920x1080/000000/FFF?text=Video';
 
   return (
-    <Link to={`/videos/${video.id}`} className="block bg-zinc-900 rounded-lg overflow-hidden transition-all duration-300 group border border-zinc-800 hover:border-zinc-700 hover:-translate-y-1">
-      <div className="relative aspect-video overflow-hidden">
-        <img src={thumbnailUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-      </div>
-      <div className="p-4">
-        <h3 className="text-base font-semibold text-gray-100 leading-snug">{video.title}</h3>
+    <Link to={`/video/${video.id}`} className="block">
+      <div className="bg-zinc-900 rounded-lg overflow-hidden transition-all duration-300 group border border-zinc-800 hover:border-zinc-700 hover:-translate-y-1 cursor-pointer">
+        <a href={video.videoLink} target="_blank" rel="noopener noreferrer">
+          <div className="relative aspect-video overflow-hidden">
+            <img src={thumbnailUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          </div>
+          <div className="p-4">
+            <h3 className="text-base font-semibold text-gray-100 leading-snug">{video.title}</h3>
+          </div>
+        </a>
       </div>
     </Link>
   );
@@ -37,11 +43,11 @@ const VideoCard = ({ video }) => {
 
 // --- (No changes to the data extraction utility) ---
 const extractApiData = (response) => {
-    const dataPayload = response.data?.data;
-    if (Array.isArray(dataPayload)) return dataPayload;
-    if (dataPayload && Array.isArray(dataPayload.items)) return dataPayload.items;
-    if (dataPayload && Array.isArray(dataPayload.data)) return dataPayload.data;
-    return [];
+  const dataPayload = response.data?.data;
+  if (Array.isArray(dataPayload)) return dataPayload;
+  if (dataPayload && Array.isArray(dataPayload.items)) return dataPayload.items;
+  if (dataPayload && Array.isArray(dataPayload.data)) return dataPayload.data;
+  return [];
 };
 
 export default function VideoListPage() {
@@ -49,22 +55,22 @@ export default function VideoListPage() {
   const [filteredVideos, setFilteredVideos] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All Videos');
-  
+
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState('');
-  
+
   useEffect(() => {
     const fetchAndProcessData = async () => {
       setStatus('loading');
       try {
-        const response = await videoApi.getAll(1, 1000); 
+        const response = await videoApi.getAll(1, 1000);
         const videos = extractApiData(response);
         setAllVideos(videos);
         setFilteredVideos(videos);
 
         const eventNames = [...new Set(videos.map(v => v.event_name).filter(Boolean))].sort();
         setCategories(['All Videos', ...eventNames]);
-        
+
         setStatus('idle');
       } catch (e) {
         console.error("Failed to fetch initial video data:", e);
@@ -131,11 +137,10 @@ export default function VideoListPage() {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`flex-shrink-0 whitespace-nowrap px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ease-in-out border-2 ${
-                    selectedCategory === category
+                  className={`flex-shrink-0 whitespace-nowrap px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ease-in-out border-2 ${selectedCategory === category
                       ? 'bg-white text-black border-white'
                       : 'bg-transparent text-zinc-300 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600'
-                  }`}
+                    }`}
                 >
                   {category}
                 </button>

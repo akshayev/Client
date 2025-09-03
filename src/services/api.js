@@ -82,6 +82,7 @@ export const galleryApi = {
 
 export const videoApi = {
   getAll: (page = 1, limit = 10) => get(`/video?page=${page}&limit=${limit}`),
+    getById: (videoId) => get(`/video/${videoId}`),
   create: (data) => create('/video', data),
   update: (videoId, data) => apiClient.patch(`/video/${videoId}`, data),
   delete: (videoId) => remove('/video', videoId),
