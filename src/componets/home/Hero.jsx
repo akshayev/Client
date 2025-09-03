@@ -48,6 +48,18 @@ const Hero = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchHeroImages = async () => {
@@ -130,7 +142,7 @@ const Hero = () => {
         >
            <img
             key={imageIndex}
-            src={currentImage.imageUrl} 
+            src={isMobile ? currentImage.mobileImageUrl : currentImage.imageUrl} 
             alt={currentImage.title}
             loading="eager"
             decoding="async"
