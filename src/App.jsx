@@ -53,7 +53,6 @@ function App() {
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/videos" element={<VideoListing />} />
               <Route path="/videos/:id" element={<VideoDetailsPage />} />
-              
             </Routes>
           </Suspense>
         </main>
