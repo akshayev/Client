@@ -1,6 +1,7 @@
 // highlight-start
 // THIS IS THE CORRECTED LINE: 'inuseState' is now 'useState' and it's wrapped in curly braces.
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 // highlight-end
 import { videoApi } from '../services/api';
 
@@ -22,17 +23,15 @@ const VideoCard = ({ video }) => {
     : 'https://placehold.co/1920x1080/000000/FFF?text=Video';
 
   return (
-    <div className="bg-zinc-900 rounded-lg overflow-hidden transition-all duration-300 group border border-zinc-800 hover:border-zinc-700 hover:-translate-y-1 cursor-pointer">
-      <a href={video.videoLink} target="_blank" rel="noopener noreferrer">
-        <div className="relative aspect-video overflow-hidden">
-          <img src={thumbnailUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-        </div>
-        <div className="p-4">
-          <h3 className="text-base font-semibold text-gray-100 leading-snug">{video.title}</h3>
-        </div>
-      </a>
-    </div>
+    <Link to={`/videos/${video.id}`} className="block bg-zinc-900 rounded-lg overflow-hidden transition-all duration-300 group border border-zinc-800 hover:border-zinc-700 hover:-translate-y-1">
+      <div className="relative aspect-video overflow-hidden">
+        <img src={thumbnailUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+      </div>
+      <div className="p-4">
+        <h3 className="text-base font-semibold text-gray-100 leading-snug">{video.title}</h3>
+      </div>
+    </Link>
   );
 };
 

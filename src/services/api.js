@@ -93,6 +93,7 @@ export const videoApi = {
 
 export const usersApi = {
   getAll: (page = 1, limit = 10) => get(`/users?page=${page}&limit=${limit}`),
+  getById: (id) => get(`/video/${id}`),
   create: (data) => create('/users', data),
   update: (id, data) => update('/users', id, data),
   delete: (id) => remove('/users', id),
