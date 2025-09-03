@@ -25,6 +25,7 @@ const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
+const StorePage = lazy(() => import('./pages/StorePage.jsx'));
 
 function App() {
   const location = useLocation();
@@ -54,7 +55,8 @@ function App() {
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/members/:id" element={<MemberPortfolio />} />
               <Route path="/upload" element={<PhotoUploadPage />} />
-              <Route path="/auth" element={<LoginPage />} />  
+              <Route path="/auth" element={<LoginPage />} />
+              {/*<Route path="/store" element={<StorePage />} />*/}
             </Routes>
           </Suspense>
         </main>
