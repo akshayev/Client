@@ -22,6 +22,7 @@ const JoinPage = lazy(() => import('./pages/JoinPage.jsx'));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
+const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
 
 function App() {
   const location = useLocation();
@@ -49,7 +50,7 @@ function App() {
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
-              
+              <Route path="/videos" element={<VideoListing />} />
             </Routes>
           </Suspense>
         </main>
