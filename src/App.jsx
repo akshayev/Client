@@ -52,7 +52,7 @@ function App() {
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/videos" element={<VideoListing />} />
-              <Route path="/videos/:id" element={<VideoDetailsPage />} />
+              <Route path="/video/:id" element={<VideoDetailsPage />} />
             </Routes>
           </Suspense>
         </main>
