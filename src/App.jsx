@@ -51,7 +51,7 @@ function App() {
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
-              <Route path="/event/:eventId" element={<EventPage />} />
+              {/*<Route path="/event/:eventId" element={<EventPage />} />*/}
               <Route path="/videos" element={<VideoListing />} />
               <Route path="/video/:id" element={<VideoDetailsPage />} />
               <Route path="*" element={<NotFoundPage />} />
