@@ -24,7 +24,6 @@ function Home() {
             <Testimonials />
             <SocialFeed />
             <Join />
-            
           </div>
         </div>
       </div>
