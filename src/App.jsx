@@ -52,10 +52,9 @@ function App() {
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/event/:eventId" element={<EventPage />} />
-              <Route path="/videos" element={<VideoListing />} />
-              <Route path="/video/:id" element={<VideoDetailsPage />} />
+              {/*<Route path="/videos" element={<VideoListing />} />
+              <Route path="/video/:id" element={<VideoDetailsPage />} />*/}
               <Route path="*" element={<NotFoundPage />} />
-
             </Routes>
           </Suspense>
         </main>
