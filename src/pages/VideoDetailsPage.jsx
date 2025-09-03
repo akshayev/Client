@@ -5,7 +5,7 @@ import { videoApi } from '../services/api';
 import { toast } from 'react-toastify';
 
 const UpVote = () => <FaArrowUp className="h-6 w-6" />;
-const ShareIcon = () => <FaShareAlt className="h-6 w-6" />;
+const ShareIcon = () => <FaShareAlt className="h-5 w-4" />;
 
 // Helper function to get embeddable URL
 const getYouTubeEmbedUrl = (url) => {
@@ -141,9 +141,9 @@ function VideoDetailsPage() {
                             <p className="font-semibold text-lg text-gray-300">{videoData.event_name || 'General'}</p>
                         </div>
                         <div className="flex items-center gap-2 mt-4 sm:mt-0">
-                            <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full font-semibold">
+                            {/* <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full font-semibold">
                                 <UpVote /> {videoData.upvotes || 0}
-                            </button>
+                            </button> */}
                             <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-full font-semibold" onClick={handleShare}>
                                 <ShareIcon /> Share
                             </button>
