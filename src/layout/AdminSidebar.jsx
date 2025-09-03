@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext.jsx'; // Make sure path is correct
 import { 
     FiImage, FiCalendar, FiUsers, FiMessageSquare, 
-    FiInstagram, FiStar, FiLogOut, FiGrid 
+    FiInstagram, FiStar, FiLogOut, FiGrid, FiFilm
 } from 'react-icons/fi';
 
 // --- Centralized Configuration for Sidebar ---
@@ -16,6 +16,7 @@ export const SIDEBAR_ITEMS = [
     { id: 'testimonials', label: 'Testimonials', icon: <FiMessageSquare size={20} /> },
     { id: 'instagram', label: 'Instagram', icon: <FiInstagram size={20} /> },
     { id: 'users', label: 'User Management', icon: <FiUsers size={20} /> },
+    { id: 'videos', label: 'Videos', icon: <FiFilm size={20} /> },
 ];
 
 const TabButton = ({ id, label, icon, activeTab, onClick }) => (
