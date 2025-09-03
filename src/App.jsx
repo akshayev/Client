@@ -1,6 +1,6 @@
 // src/App.jsx
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Suspense, lazy } from 'react';
 import { Analytics } from "@vercel/analytics/react"
@@ -23,32 +23,39 @@ const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
 const EventPage = lazy(() => import('./pages/EventPage.jsx'));
+const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
+const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
+
 
 function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname === '/admin';
+
   return (
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
-      <Analytics/>
+      <Analytics />
       <AuthProvider>
-        <Nav /> 
+        {!isAdminRoute && <Nav />}
         <ToastContainer />
-        
         <main className="flex-1">
           <Suspense fallback={<LoadingPage />}>
             <Routes>
+              <Route
+                path="/admin"
+                element={<ProtectedRoute><AdminPage /></ProtectedRoute>}
+              />
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
-
-              {/* 2. ADD DYNAMIC ROUTE FOR EVENTS */}
               <Route path="/event/:eventId" element={<EventPage />} />
+              <Route path="/videos" element={<VideoListing />} />
+              <Route path="/video/:id" element={<VideoDetailsPage />} />
+              <Route path="*" element={<NotFoundPage />} />
 
-              <Route 
-                path="/admin" 
-                element={<ProtectedRoute><AdminPage /></ProtectedRoute>} 
-              />
             </Routes>
           </Suspense>
         </main>

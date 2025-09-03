@@ -1,3 +1,5 @@
+// src/services/api.js
+
 import axios from 'axios';
 
 // Create an Axios instance with a base URL
@@ -11,7 +13,8 @@ const apiClient = axios.create({
 // Interceptor to add the auth token to every request if it exists
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('adminToken'); // Assumes you store the token in localStorage after login
+    // Assumes you store the token in localStorage after admin login
+    const token = localStorage.getItem('adminToken'); 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -33,7 +36,6 @@ export const authApi = {
   verifyToken: () => apiClient.get('/auth/verify'),
   getMe: () => apiClient.get('/auth/me'),
 };
-
 
 export const heroApi = {
   getAll: () => get('/hero'),
@@ -73,9 +75,32 @@ export const instagramApi = {
 
 export const galleryApi = {
   getAll: () => get('/gallery'),
-  create: (data) => create('/gallery', data), // API supports URL-only creation which matches the UI
+  create: (data) => create('/gallery', data),
   update: (id, data) => update('/gallery', id, data),
   delete: (id) => remove('/gallery', id),
+};
+
+
+export const videoApi = {
+  getAll: (page = 1, limit = 10) => get(`/video?page=${page}&limit=${limit}`),
+    getById: (videoId) => get(`/video/${videoId}`),
+  create: (data) => create('/video', data),
+  update: (videoId, data) => apiClient.patch(`/video/${videoId}`, data),
+  delete: (videoId) => remove('/video', videoId),
+  // highlight-start
+  // NEW: Add the method to get videos for a specific event
+  getForEvent: (eventId, page = 1, limit = 10) => get(`/events/${eventId}/videos?page=${page}&limit=${limit}`),
+  // highlight-end
+};
+
+export const usersApi = {
+  getAll: (page = 1, limit = 10) => get(`/users?page=${page}&limit=${limit}`),
+  getById: (id) => get(`/video/${id}`),
+  create: (data) => create('/users', data),
+  update: (id, data) => update('/users', id, data),
+  delete: (id) => remove('/users', id),
+  updateStatus: (id, isActive) => apiClient.patch(`/users/${id}/status`, { isActive }),
+  updateRole: (id, role) => apiClient.patch(`/users/${id}/role`, { role }),
 };
 
 export default apiClient;
