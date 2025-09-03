@@ -79,10 +79,6 @@ export const galleryApi = {
   delete: (id) => remove('/gallery', id),
 };
 
-
-// ====================================================================
-// NEW & COMPLETE VIDEO API SERVICE BASED ON YOUR POSTMAN COLLECTION
-// ====================================================================
 export const videoApi = {
   getAll: () => get('/video'),
   getById: (videoId) => get(`/video/${videoId}`),
@@ -91,6 +87,5 @@ export const videoApi = {
   delete: (videoId) => remove('/video', videoId),
   getForEvent: (eventId) => get(`/events/${eventId}/videos`),
 };
-// ====================================================================
 
 export default apiClient;
