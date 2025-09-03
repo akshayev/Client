@@ -22,6 +22,11 @@ const JoinPage = lazy(() => import('./pages/JoinPage.jsx'));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
+const EventPage = lazy(() => import('./pages/EventPage.jsx'));
+const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
+const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
+
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
@@ -32,20 +37,17 @@ function App() {
   const isAdminRoute = location.pathname === '/admin';
 
   return (
-    // FIX 1: Make this div a flex container that is at least the height of the screen
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
-      <Analytics/>
+      <Analytics />
       <AuthProvider>
         {!isAdminRoute && <Nav />}
         <ToastContainer />
-        
-        {/* FIX 2: This 'main' element will grow to fill all available space */}
         <main className="flex-1">
           <Suspense fallback={<LoadingPage />}>
             <Routes>
-              <Route 
-                path="/admin" 
-                element={<ProtectedRoute><AdminPage /></ProtectedRoute>} 
+              <Route
+                path="/admin"
+                element={<ProtectedRoute><AdminPage /></ProtectedRoute>}
               />
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
@@ -53,6 +55,10 @@ function App() {
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
+              <Route path="/event/:eventId" element={<EventPage />} />
+              {/*<Route path="/videos" element={<VideoListing />} />
+              <Route path="/video/:id" element={<VideoDetailsPage />} />*/}
+              <Route path="*" element={<NotFoundPage />} />
               <Route path="/members/:id" element={<MemberPortfolio />} />
               <Route path="/upload" element={<PhotoUploadPage />} />
               <Route path="/auth" element={<LoginPage />} />

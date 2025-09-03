@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaInstagram, FaBehance, FaEnvelope } from 'react-icons/fa';
-
+import { useLocation } from 'react-router-dom'; // Import useLocation
 
 // --- Data for Footer Links (easy to manage) ---
 const footerLinks = [
@@ -19,6 +19,13 @@ const socialLinks = [
 
 
 const Footer = () => {
+  const location = useLocation();
+
+  // Don't render the footer on the /admin route
+  if (location.pathname.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <footer className="bg-black text-gray-400 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-6 py-16">
