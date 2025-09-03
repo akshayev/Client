@@ -1,6 +1,7 @@
 // highlight-start
 // THIS IS THE CORRECTED LINE: 'inuseState' is now 'useState' and it's wrapped in curly braces.
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 // highlight-end
 import { videoApi } from '../services/api';
 
