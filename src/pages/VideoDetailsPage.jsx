@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { FaShareAlt, FaArrowUp } from 'react-icons/fa';
-// Import your API service
 import { videoApi } from '../services/api';
 
 const UpVote = () => <FaArrowUp className="h-6 w-6" />;
