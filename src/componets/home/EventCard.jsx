@@ -14,7 +14,7 @@ const cardVariants = {
 export const EventCard = ({ event, index }) => {
   return (
      // WRAP EVERYTHING WITH THE LINK COMPONENT
-    <Link to={{/*`/event/${event.id}`*/}`/`} className="block h-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 rounded-2xl">
+    <Link to={`/event/${event.id}`} className="block h-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 rounded-2xl">
       <motion.div
         key={event.id}
         className="relative bg-zinc-900 rounded-2xl overflow-hidden shadow-lg border border-zinc-800 group h-full"
