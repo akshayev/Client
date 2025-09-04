@@ -27,8 +27,6 @@ const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
 const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 
-const Teampage = lazy(() => import('./pages/Teampage.jsx'));
-
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
@@ -59,8 +57,7 @@ function App() {
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/event/:eventId" element={<EventPage />} />
               <Route path="*" element={<NotFoundPage />} />
-              <Route path="/Teampage" element={<Teampage />} />
-              {/*<Route path="/videos" element={<VideoListing />} />
+              <Route path="/Teampage" element={<Teampage />} />              {/*<Route path="/videos" element={<VideoListing />} />
               <Route path="/video/:id" element={<VideoDetailsPage />} />
               <Route path="/members/:id" element={<MemberPortfolio />} />
               <Route path="/upload" element={<PhotoUploadPage />} />
