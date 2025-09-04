@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Suspense, lazy } from 'react';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Your components
 import Nav from './componets/Navbar.jsx';
@@ -27,8 +28,6 @@ const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
 const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 
-const Teampage = lazy(() => import('./pages/Teampage.jsx'));
-
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
@@ -41,6 +40,7 @@ function App() {
   return (
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
       <Analytics />
+      <SpeedInsights />
       <AuthProvider>
         {!isAdminRoute && <Nav />}
         <ToastContainer />
@@ -59,7 +59,6 @@ function App() {
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/event/:eventId" element={<EventPage />} />
               <Route path="*" element={<NotFoundPage />} />
-              <Route path="/Teampage" element={<Teampage />} />
               {/*<Route path="/videos" element={<VideoListing />} />
               <Route path="/video/:id" element={<VideoDetailsPage />} />
               <Route path="/members/:id" element={<MemberPortfolio />} />
