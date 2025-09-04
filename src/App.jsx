@@ -4,6 +4,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Suspense, lazy } from 'react';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/react';
+
 
 // Your components
 import Nav from './componets/Navbar.jsx';
@@ -39,6 +41,7 @@ function App() {
   return (
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
       <Analytics />
+      <SpeedInsights />
       <AuthProvider>
         {!isAdminRoute && <Nav />}
         <ToastContainer />
