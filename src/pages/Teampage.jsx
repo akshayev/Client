@@ -5,8 +5,8 @@ import React from 'react';
 const teamsData = [
   {
     teamName: "Club Core",
-    lead: { name: "Sienna Hewitt", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" },
-    coLead: { name: "Ashwin Santiago", avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200&auto=format&fit=crop" },
+    lead: { name: "Rishikesh", avatar: "https://i.postimg.cc/Grb6JWJN/IMG-20250820-080442-Rishikesh-Babu.jpg" },
+    coLead: { name: "Akshay", avatar: "https://i.postimg.cc/Gr78c1Mn/Whats-App-Image-2025-08-26-at-17-35-39-68c0c6ad.jpg" },
     members: [] // Club Core has no visible members.
   },
   {
@@ -15,10 +15,14 @@ const teamsData = [
     coLead: { name: "", avatar: "" },
     members: [
       { name: "Nived Raj", role: "", avatar: "https://i.postimg.cc/kMVX13nX/IMG-6913-Nived-Raj.avif" },
-      { name: "Abhishek P Vasudev", role: "", avatar: "https://i.postimg.cc/1XynFvqN/DSC02352-Abhishek-P-Vasudev.jpg" }
+      { name: "Abhishek P Vasudev", role: "", avatar: "https://i.postimg.cc/1XynFvqN/DSC02352-Abhishek-P-Vasudev.jpg" },
+      { name: "Shahin N", role: "", avatar: "https://i.postimg.cc/XNTNtHJK/Whats-App-Image-2025-08-20-at-08-19-50-0a95550a-Shahin-N.jpg" },
+      { name: "Abdul Rahman", role: "", avatar: "https://i.postimg.cc/mg1Dtv55/IMG-6529-Abdul-Rahman.avif" },
+      { name: "Shalon V", role: "", avatar: "https://i.postimg.cc/wTv3dycH/IMG-5784-Shalon-v.jpg" },
+      { name: "ADWAID P KUMAR", role: "", avatar: "https://i.postimg.cc/brSMQRfp/IMG-20250503-101500-ADWAID-P-KUMAR.jpg" },
     ]
   },
-  {
+  {/*{
     teamName: "Tech Core",
     lead: { name: "Lulu Meyers", avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop" },
     coLead: { name: "Orlando Diggs", avatar: "https://images.unsplash.com/photo-1521119989659-a83eee488004?q=80&w=200&auto=format&fit=crop" },
@@ -26,42 +30,42 @@ const teamsData = [
       { name: "Nate Allen", role: "Web Developer", avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop" },
       { name: "Ivy Scott", role: "Equipment Manager", avatar: "https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?q=80&w=200&auto=format&fit=crop" }
     ]
-  },
+  },*/},
   {
     teamName: "Cine Vision Studios",
-    lead: { name: "Kyla Clay", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286de2?q=80&w=200&auto=format&fit=crop" },
-    coLead: { name: "Brianna Ware", avatar: "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=200&auto=format&fit=crop" },
+    lead: { name: "", avatar: "" },
+    coLead: { name: "", avatar: "" },
     members: [
-        { name: "Finn Wolf", role: "Videographer", avatar: "https://images.unsplash.com/photo-1552642986-ccb41e7059e7?q=80&w=200&auto=format&fit=crop" },
-        { name: "Sadie Sink", role: "Editor", avatar: "https://images.unsplash.com/photo-1611601322175-28e6b454c632?q=80&w=200&auto=format&fit=crop" }
+      { name: "Nivedh K", role: "", avatar: "https://i.postimg.cc/d0TyckFD/20250412-122701-Nivedh-K.jpg" },
+      { name: "Fathima Amna", role: "", avatar: "https://i.postimg.cc/CM4f0p3C/bc3434bf-792c-4cdd-84a9-f2b3d14e9296-Fathima-Amna.jpg" },
+      { name: "I P Fahad", role: "", avatar: "https://i.postimg.cc/3JS4yCJd/IMG-1282-Ip-Fahad.jpg" },
+      { name: "Pranav V P", role: "", avatar: "https://i.postimg.cc/XvH4LxmC/Picsart-25-08-19-20-26-34-827-Pranav-vp.jpg" },
+      { name: "Arun", role: "", avatar: "https://i.postimg.cc/XjBWw5f1/1000081358.jpg" },
+      { name: "SALIH", role: "", avatar: "https://i.postimg.cc/fLzDjp8Z/IMG-8227-SALIH.jpg" },
     ]
   },
   {
     teamName: "Creative Force",
-    lead: { name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop" },
-    coLead: { name: "Ben Carter", avatar: "https://images.unsplash.com/photo-1549351512-c5e12b11e283?q=80&w=200&auto=format&fit=crop" },
+    lead: { name: "", avatar: "" },
+    coLead: { name: "", avatar: "" },
     members: [
-        { name: "Olivia Rodrigo", role: "Lead Photographer", avatar: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?q=80&w=200&auto=format&fit=crop" },
-        { name: "Joshua Bassett", role: "Graphic Designer", avatar: "https://images.unsplash.com/photo-1629074743474-8a478309a478?q=80&w=200&auto=format&fit=crop" }
+      { name: "Mohammed Lahan P S", role: "", avatar: "https://i.postimg.cc/4ywKQp62/f0422866-377e-4a89-bafa-662d13442b67-Mohammed-Lahan-P-S.jpg" },
+      { name: "Gokul Suresh", role: "", avatar: "https://i.postimg.cc/CxRZbBzJ/20250517-164329-GOKUL-SURESH.jpg" },
+      { name: "Adarsh", role: "", avatar: "https://i.postimg.cc/kqqxsCZv/1000398571.jpg" },
+      { name: "Adith Dileep A D", role: "", avatar: "https://i.postimg.cc/D77mpcnH/NIM-7824-01-2.jpg" },
+      { name: "Karthik Rb", role: "", avatar: "https://i.postimg.cc/9FRVpGY4/IMG-7012-Karthik-Rb.jpg" },
     ]
   },
   {
     teamName: "The First Year Wing",
-    lead: { name: "Chloe Davis", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop" },
-    coLead: { name: "David Evans", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" },
+    lead: { name: "", avatar: "" },
+    coLead: { name: "", avatar: "" },
     members: [
-        { name: "Jenna Ortega", role: "Orientation Lead", avatar: "https://images.unsplash.com/photo-1531123414780-f74242c2b052?q=80&w=200&auto=format&fit=crop" }
+      { name: "Nived Raj", role: "Coordinator", avatar: "https://i.postimg.cc/kMVX13nX/IMG-6913-Nived-Raj.avif" },
+      { name: "Adith Dileep A D", role: "Coordinator", avatar: "https://i.postimg.cc/D77mpcnH/NIM-7824-01-2.jpg" },
+      { name: "Pranav V P", role: "Coordinator", avatar: "https://i.postimg.cc/XvH4LxmC/Picsart-25-08-19-20-26-34-827-Pranav-vp.jpg" },
     ]
   },
-  {
-    teamName: "Creative Launches",
-    lead: { name: "Ella Martinez", avatar: "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?q=80&w=200&auto=format&fit=crop" },
-    coLead: { name: "Liam Wilson", avatar: "https://images.unsplash.com/photo-1520409364224-63400afe26e5?q=80&w=200&auto=format&fit=crop" },
-    members: [
-        { name: "Noah Schnapp", role: "Social Media Manager", avatar: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=200&auto=format&fit=crop" },
-        { name: "Millie Bobby Brown", role: "Content Writer", avatar: "https://images.unsplash.com/photo-1520529986992-1f211a3b4737?q=80&w=200&auto=format&fit=crop" }
-    ]
-  }
 ];
 
 
