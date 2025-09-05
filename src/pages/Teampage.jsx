@@ -7,6 +7,8 @@ const teamsData = [
     teamName: "Club Core",
     lead: { name: "Rishikesh", avatar: "https://i.postimg.cc/Grb6JWJN/IMG-20250820-080442-Rishikesh-Babu.jpg" },
     coLead: { name: "Akshay", avatar: "https://i.postimg.cc/Gr78c1Mn/Whats-App-Image-2025-08-26-at-17-35-39-68c0c6ad.jpg" },
+    techLead: { name: "Adith Dileep A D", avatar: "https://i.postimg.cc/D77mpcnH/NIM-7824-01-2.jpg" },
+    treasurer: { name: "Adarsh", avatar: "https://i.postimg.cc/kqqxsCZv/1000398571.jpg" },
     members: [] // Club Core has no visible members.
   },
   {
@@ -120,6 +122,30 @@ function TeamSection({ team }) {
             />
             <p className="mt-4 text-xl font-bold text-neutral-100">{team?.coLead?.name}</p>
             <p className="mt-1 text-lg text-blue-400 font-semibold">Co-Lead</p>
+          </div>
+        )}
+        {team?.techLead?.name && (
+          <div className="flex flex-col items-center text-center">
+            <img 
+              src={team?.techLead?.avatar} 
+              alt={team?.techLead?.name} 
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-neutral-700 object-cover shadow-lg grayscale hover:grayscale-0 transition-all duration-500 ease-in-out transform hover:scale-105"
+              onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/150/1F2937/A3BFFA?text=Tech-Lead'; }}
+            />
+            <p className="mt-4 text-xl font-bold text-neutral-100">{team?.techLead?.name}</p>
+            <p className="mt-1 text-lg text-blue-400 font-semibold">Tech-Lead</p>
+          </div>
+        )}
+        {team?.treasurer?.name && (
+          <div className="flex flex-col items-center text-center">
+            <img 
+              src={team?.treasurer?.avatar} 
+              alt={team?.treasurer?.name} 
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-neutral-700 object-cover shadow-lg grayscale hover:grayscale-0 transition-all duration-500 ease-in-out transform hover:scale-105"
+              onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/150/1F2937/A3BFFA?text=Treasurer'; }}
+            />
+            <p className="mt-4 text-xl font-bold text-neutral-100">{team?.treasurer?.name}</p>
+            <p className="mt-1 text-lg text-blue-400 font-semibold">Treasurer</p>
           </div>
         )}
       </div>

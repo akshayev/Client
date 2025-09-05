@@ -59,8 +59,8 @@ function App() {
               <Route path="/aaravam" element={<Aaravam />} />
               <Route path="/event/:eventId" element={<EventPage />} />
               <Route path="*" element={<NotFoundPage />} />
-              {/*<Route path="/teampage" element={<Teampage />} />              
-              <Route path="/videos" element={<VideoListing />} />
+              <Route path="/teampage" element={<Teampage />} />              
+              {/*<Route path="/videos" element={<VideoListing />} />
               <Route path="/video/:id" element={<VideoDetailsPage />} />
               <Route path="/members/:id" element={<MemberPortfolio />} />
               <Route path="/upload" element={<PhotoUploadPage />} />
