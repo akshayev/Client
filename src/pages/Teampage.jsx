@@ -156,7 +156,7 @@ export default function TeamPage() {
                    before:pointer-events-none before:fixed before:inset-0 before:z-0
                    before:bg-[radial-gradient(circle_farthest-side_at_var(--mouse-x)_var(--mouse-y),_rgba(147,51,234,0.15),_transparent_50%)]"
     >
-      <div className="max-w-7xl mx-auto relative z-10 mt-20">
+      <div className="max-w-7xl mx-auto relative z-10 mt-20 mb-20">
         {/* Header */}
         <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pb-2">
