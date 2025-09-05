@@ -26,6 +26,7 @@ const EventPage = lazy(() => import('./pages/EventPage.jsx'));
 const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
 const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
+const Teampage = lazy(() => import('./pages/Teampage.jsx'));
 
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));

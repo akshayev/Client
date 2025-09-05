@@ -4,19 +4,19 @@ import { teamApi } from '../../services/api.js'; // Adjust path if necessary
 // --- Professional Loading Skeleton for the Team Section ---
 const TeamSkeleton = () => {
   return (
-    <section className='relative w-full min-h-screen bg-black text-[#e3e3db] flex flex-col justify-center items-center gap-6 md:gap-10 overflow-hidden font-sans p-4 animate-pulse'>
+    <section className='relative w-full min-h-screen bg-black text-[#e3e3db] flex flex-col justify-center items-center gap-6 md:gap-10 overflow-hidden font-sans p-4 animate-pulse mt-20'>
       
       {/* --- DESKTOP SKELETON --- */}
       <div className='hidden md:flex flex-col justify-center items-center gap-10 w-full'>
         {/* Placeholder for Profile Images */}
         <div className='flex justify-center items-center -space-x-3 md:-space-x-4 lg:-space-x-5'>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => 
             <div
               key={index}
               // Mimics the size, shape, and border of the real images
               className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-neutral-800 border-2 lg:border-4 border-[#e3e3db]/30"
             />
-          ))}
+          )}
         </div>
         
         {/* Placeholder for the Name/Title Text */}

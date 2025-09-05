@@ -11,11 +11,11 @@ const teamsData = [
   },
   {
     teamName: "Event Core",
-    lead: { name: "Caitlyn King", avatar: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=200&auto=format&fit=crop" },
-    coLead: { name: "Owen Garcia", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" },
+    lead: { name: "", avatar: "" },
+    coLead: { name: "", avatar: "" },
     members: [
-      { name: "Grace Lee", role: "Logistics Manager", avatar: "https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?q=80&w=200&auto=format&fit=crop" },
-      { name: "Tom Harris", role: "Promotions Lead", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" }
+      { name: "Nived Raj", role: "", avatar: "https://i.postimg.cc/kMVX13nX/IMG-6913-Nived-Raj.avif" },
+      { name: "Abhishek P Vasudev", role: "", avatar: "https://i.postimg.cc/1XynFvqN/DSC02352-Abhishek-P-Vasudev.jpg" }
     ]
   },
   {
@@ -94,26 +94,30 @@ function TeamSection({ team }) {
 
       {/* Leads Section */}
       <div className="p-8 flex flex-col sm:flex-row justify-center items-center gap-12 sm:gap-16">
-        <div className="flex flex-col items-center text-center">
-          <img 
-            src={team?.lead?.avatar} 
-            alt={team?.lead?.name} 
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-neutral-700 object-cover shadow-lg grayscale hover:grayscale-0 transition-all duration-500 ease-in-out transform hover:scale-105" 
-            onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/150/1F2937/A3BFFA?text=Lead'; }}
-          />
-          <p className="mt-4 text-xl font-bold text-neutral-100">{team?.lead?.name}</p>
-          <p className="mt-1 text-lg text-blue-400 font-semibold">Lead</p>
-        </div>
-        <div className="flex flex-col items-center text-center">
-          <img 
-            src={team?.coLead?.avatar} 
-            alt={team?.coLead?.name} 
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-neutral-700 object-cover shadow-lg grayscale hover:grayscale-0 transition-all duration-500 ease-in-out transform hover:scale-105"
-            onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/150/1F2937/A3BFFA?text=Co-Lead'; }}
-          />
-          <p className="mt-4 text-xl font-bold text-neutral-100">{team?.coLead?.name}</p>
-          <p className="mt-1 text-lg text-blue-400 font-semibold">Co-Lead</p>
-        </div>
+        {team?.lead?.name && (
+          <div className="flex flex-col items-center text-center">
+            <img 
+              src={team?.lead?.avatar} 
+              alt={team?.lead?.name} 
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-neutral-700 object-cover shadow-lg grayscale hover:grayscale-0 transition-all duration-500 ease-in-out transform hover:scale-105" 
+              onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/150/1F2937/A3BFFA?text=Lead'; }}
+            />
+            <p className="mt-4 text-xl font-bold text-neutral-100">{team?.lead?.name}</p>
+            <p className="mt-1 text-lg text-blue-400 font-semibold">Lead</p>
+          </div>
+        )}
+        {team?.coLead?.name && (
+          <div className="flex flex-col items-center text-center">
+            <img 
+              src={team?.coLead?.avatar} 
+              alt={team?.coLead?.name} 
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-neutral-700 object-cover shadow-lg grayscale hover:grayscale-0 transition-all duration-500 ease-in-out transform hover:scale-105"
+              onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/150/1F2937/A3BFFA?text=Co-Lead'; }}
+            />
+            <p className="mt-4 text-xl font-bold text-neutral-100">{team?.coLead?.name}</p>
+            <p className="mt-1 text-lg text-blue-400 font-semibold">Co-Lead</p>
+          </div>
+        )}
       </div>
 
       {/* Members List */}
@@ -148,7 +152,7 @@ export default function TeamPage() {
                    before:pointer-events-none before:fixed before:inset-0 before:z-0
                    before:bg-[radial-gradient(circle_farthest-side_at_var(--mouse-x)_var(--mouse-y),_rgba(147,51,234,0.15),_transparent_50%)]"
     >
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 mt-20">
         {/* Header */}
         <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 pb-2">
@@ -174,4 +178,3 @@ export default function TeamPage() {
     </div>
   );
 }
-
