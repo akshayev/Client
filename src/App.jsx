@@ -15,6 +15,7 @@ import LoadingPage from './pages/LoadingPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import ProtectedRoute from './componets/admin/ProtectedRoute.jsx';
 
+
 // Your Lazily Loaded Pages
 const Home = lazy(() => import('./pages/Home.jsx'));
 const AboutPage = lazy(() => import('./pages/About.jsx'));
@@ -28,6 +29,7 @@ const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
 const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 const Teampage = lazy(() => import('./pages/Teampage.jsx'));
+const Alumni = lazy(() => import('./pages/Alumni.jsx'));
 
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));
@@ -57,6 +59,7 @@ function App() {
               <Route path="/join" element={<JoinPage />} />
               <Route path="/login" element={<AdminLoginPage />} />
               <Route path="/aaravam" element={<Aaravam />} />
+              <Route path="/alumni" element={<Alumni />} />
               <Route path="/event/:eventId" element={<EventPage />} />
               <Route path="*" element={<NotFoundPage />} />
               {/*<Route path="/teampage" element={<Teampage />} />              
