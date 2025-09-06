@@ -1,68 +1,38 @@
-
-import image1 from "../assets/image.jpg";
-
 export const alumniData = [
   {
     id: 1,
     name: "John Doe",
-    batch: "2018",
+    batch: 2022,
     role: "Software Engineer at Google",
-    photo: image1
+    photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop",
   },
   {
     id: 2,
     name: "Jane Smith",
-    batch: "2019",
-    role: "UI/UX Designer at Microsoft",
-    photo: image1
+    batch: 2022,
+    role: "Product Manager at Microsoft",
+    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
   },
   {
     id: 3,
     name: "Alex Johnson",
-    batch: "2020",
+    batch: 2021,
     role: "Data Scientist at Amazon",
-    photo: image1
+    photo: "https://images.unsplash.com/photo-1521119989659-a83eee488004?q=80&w=400&auto=format&fit=crop",
   },
   {
     id: 4,
-    name: "Priya Sharma",
-    batch: "2017",
-    role: "Product Manager at Meta",
-    photo: image1
+    name: "Emily White",
+    batch: 2021,
+    role: "UX Designer at Apple",
+    photo: "https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?q=80&w=400&auto=format&fit=crop",
   },
   {
     id: 5,
-    name: "Arjun Mehta",
-    batch: "2016",
-    role: "DevOps Engineer at Netflix",
-    photo: image1
-  },
-  {
-    id: 6,
-    name: "Sophia Williams",
-    batch: "2021",
-    role: "Frontend Developer at Adobe",
-    photo: image1
-  },
-  {
-    id: 7,
-    name: "Ravi Kumar",
-    batch: "2015",
-    role: "Cloud Architect at IBM",
-    photo: image1
-  },
-  {
-    id: 8,
-    name: "Emily Davis",
-    batch: "2019",
-    role: "Cybersecurity Analyst at Cisco",
-    photo: image1
-  },
-  {
-    id: 9,
-    name: "Mohammed Ali",
-    batch: "2018",
+    name: "Michael Brown",
+    batch: 2023,
     role: "AI Researcher at OpenAI",
-    photo: image1
-  }
+    photo: "https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=400&auto=format&fit=crop",
+  },
+  // ... more alumni
 ];
