@@ -1,5 +1,5 @@
 
-import image1 from "../assets";
+import image1 from "../assets/image.jpg";
 
 export const alumniData = [
   {
