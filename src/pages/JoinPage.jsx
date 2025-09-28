@@ -67,13 +67,13 @@ const JoinPage = () => {
           <HeroSection variants={sectionVariants} />
           <HowToJoinSection variants={sectionVariants} />
           <BenefitsSection variants={sectionVariants} />
-          <RegistrationFormSection 
+          {/*<RegistrationFormSection 
             variants={sectionVariants}
             formData={formData}
             formStatus={formStatus}
             onInputChange={handleInputChange}
             onSubmit={handleSubmit}
-          />
+          />*/}
         </div>
       </div>
     </div>
