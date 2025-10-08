@@ -79,7 +79,7 @@ const RegistrationFormSection = () => {
           <AnimatedInput id="name" label="Your Name" icon={<FiUser />} value={formData.name} onChange={handleInputChange} />
           <AnimatedInput id="email" label="Email Address" type="email" icon={<FiMail />} value={formData.email} onChange={handleInputChange} />
           <AnimatedInput id="password" label="Create a Password" type="password" icon={<FiLock />} value={formData.password} onChange={handleInputChange} />
-          <AnimatedInput id="program" label="Program / Year" icon={<FiAward />} value={formData.program} onChange={handleInputChange} />
+          <AnimatedInput id="program" label="Passout Year" icon={<FiAward />} value={formData.program} onChange={handleInputChange} />
           
           {/* New field for description */}
           <AnimatedInput 

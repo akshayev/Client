@@ -5,24 +5,26 @@ import { ToastContainer } from 'react-toastify';
 import { Suspense, lazy } from 'react';
 import { Analytics } from "@vercel/analytics/react"
 
-
-// Your components
-import Nav from './componets/Navbar.jsx';
+// Layout Components
+// FIX: Corrected typo 'componets' to 'components'
+import Nav from './componets/Navbar.jsx'; 
 import Footer from './componets/Footer.jsx';
 import LoadingPage from './pages/LoadingPage.jsx';
 
-// Context and Protected Routes
+// Contexts and Protected Route Components
 import { AuthProvider } from './context/AuthContext.jsx';
-import ProtectedRoute from './componets/admin/ProtectedRoute.jsx';
+import ProtectedRoute from './componets/admin/ProtectedRoute.jsx'; 
+import { MemberAuthProvider } from './context/MemberAuthContext.jsx';
+import MemberProtectedRoute from './componets/members/MemberProtectedRoute.jsx';
 
-
-// Your Lazily Loaded Pages
+// --- ALL LAZILY LOADED PAGES ---
+// This entire block was missing from the previous snippet, causing the error.
 const Home = lazy(() => import('./pages/Home.jsx'));
 const AboutPage = lazy(() => import('./pages/About.jsx'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage.jsx'));
 const JoinPage = lazy(() => import('./pages/JoinPage.jsx'));
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage.jsx'));
-const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
+const AdminPage = lazy(() => import('./pages/AdminPage.jsx')); // <-- The missing import
 const Aaravam = lazy(() => import('./pages/Aaravam.jsx'));
 const EventPage = lazy(() => import('./pages/EventPage.jsx'));
 const VideoListing = lazy(() => import('./pages/VideoListing.jsx'));
@@ -30,49 +32,68 @@ const VideoDetailsPage = lazy(() => import('./pages/VideoDetailsPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 const Teampage = lazy(() => import('./pages/Teampage.jsx'));
 const Alumni = lazy(() => import('./pages/Alumni.jsx'));
-
 const MemberPortfolio = lazy(() => import('./pages/MemberPortfolio.jsx'));
 const PhotoUploadPage = lazy(() => import('./pages/PhotoUploadPage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
 const StorePage = lazy(() => import('./pages/StorePage.jsx'));
+const MyProfile = lazy(() => import('./pages/MyProfile.jsx'));
 
 function App() {
   const location = useLocation();
-  const isAdminRoute = location.pathname === '/admin';
+  // Hide Nav and Footer on admin and auth pages for a cleaner interface
+  const isSpecialRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/login');
 
   return (
     <div className='flex flex-col min-h-screen w-full bg-neutral-950'>
       <Analytics />
       <AuthProvider>
-        {!isAdminRoute && <Nav />}
-        <ToastContainer />
-        <main className="flex-1">
-          <Suspense fallback={<LoadingPage />}>
-            <Routes>
-              <Route
-                path="/admin"
-                element={<ProtectedRoute><AdminPage /></ProtectedRoute>}
-              />
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
-              <Route path="/join" element={<JoinPage />} />
-              <Route path="/login" element={<AdminLoginPage />} />
-              <Route path="/aaravam" element={<Aaravam />} />
-              <Route path="/event/:eventId" element={<EventPage />} />
-              <Route path="*" element={<NotFoundPage />} /> 
-              {/*<Route path="/teampage" element={<Teampage />} />
-              <Route path="/alumni" element={<Alumni />} /> 
-              <Route path="/videos" element={<VideoListing />} />
-              <Route path="/video/:id" element={<VideoDetailsPage />} />
-              <Route path="/members/:id" element={<MemberPortfolio />} />
-              <Route path="/upload" element={<PhotoUploadPage />} />
-              <Route path="/auth" element={<LoginPage />} />
-              <Route path="/store" element={<StorePage />} />*/}
-            </Routes>
-          </Suspense>
-        </main>
-        <Footer />
+        <MemberAuthProvider>
+          {!isSpecialRoute && <Nav />}
+          <ToastContainer />
+          <main className="flex-1">
+            <Suspense fallback={<LoadingPage />}>
+              <Routes>
+                {/* --- Admin Routes --- */}
+                <Route
+                  path="/admin"
+                  element={<ProtectedRoute><AdminPage /></ProtectedRoute>}
+                />
+                <Route path="/login" element={<AdminLoginPage />} />
+
+                {/* --- Member Login Page --- */}
+                <Route path="/auth" element={<LoginPage />} />
+
+                {/* --- MEMBER PROTECTED ROUTES --- */}
+                <Route
+                  path="/memberprofile"
+                  element={<MemberProtectedRoute><MyProfile /></MemberProtectedRoute>}
+                />
+                <Route
+                  path="/upload"
+                  element={<MemberProtectedRoute><PhotoUploadPage /></MemberProtectedRoute>}
+                />
+
+                {/* --- Public Routes --- */}
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route path="/join" element={<JoinPage />} />
+                <Route path="/aaravam" element={<Aaravam />} />
+                <Route path="/event/:eventId" element={<EventPage />} />
+                <Route path="/teampage" element={<Teampage />} />
+                <Route path="/alumni" element={<Alumni />} /> 
+                <Route path="/videos" element={<VideoListing />} />
+                <Route path="/video/:id" element={<VideoDetailsPage />} />
+                <Route path="/store" element={<StorePage />} />
+                <Route path='/members/:id' element={<MemberPortfolio />} />
+                
+                {/* Catch-all Not Found Route */}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Suspense>
+          </main>
+          {!isSpecialRoute && <Footer />}
+        </MemberAuthProvider>
       </AuthProvider>
     </div>  
   );

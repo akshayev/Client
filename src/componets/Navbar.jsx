@@ -7,6 +7,7 @@ const navLinks = [
   { title: 'About', href: '/about' },
   { title: 'Works', href: '/gallery' },
   { title: 'Join', href: '/join' },
+  { title: 'Videos', href: '/videos' },
 ];
 
 // --- Mobile Menu Component (Unchanged) ---

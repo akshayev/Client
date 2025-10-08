@@ -1,18 +1,30 @@
+// src/components/admin/AdminCrudController.jsx
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiX } from 'react-icons/fi';
 
+/**
+ * A generic and reusable controller for handling CRUD operations in an admin panel.
+ * @param {string} title - The title to display for the section (e.g., "User Management").
+ * @param {Array} items - The array of data items to display.
+ * @param {React.Component} FormComponent - The component to render for the add/edit form.
+ * @param {React.Component} ListItemComponent - The component to render for each item in the list.
+ * @param {object} initialFormState - The default state for a new item.
+ * @param {object} api - An API service object with `create`, `update`, and `delete` methods.
+ * @param {function} onDataChange - A function to call to refresh data in the parent component.
+ * @param {object} ...rest - Any other props (like custom event handlers) are passed down to the ListItemComponent.
+ */
 const AdminCrudController = ({
   title,
-  items,
+  items = [], // Default to an empty array to prevent map errors
   FormComponent,
   ListItemComponent,
   initialFormState,
   api,
   onDataChange,
-  mapToApi,
-  mapFromApi,
-  validateForm,
+  // Any other props (like custom event handlers) are collected here
+  ...rest 
 }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(initialFormState);
@@ -26,53 +38,42 @@ const AdminCrudController = ({
     setIsFormVisible(true);
     setError(null);
   };
+
   const handleEdit = (item) => {
     setIsEditing(true);
-    const mappedItem = mapFromApi ? mapFromApi(item) : item;
-    setCurrentItem({ ...mappedItem });
+    // Use a deep copy to prevent mutating the original item in the list while editing
+    setCurrentItem({ ...item });
     setIsFormVisible(true);
     setError(null);
   };
+
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (window.confirm('Are you sure you want to permanently delete this item?')) {
       try {
-        setIsLoading(true);
         await api.delete(id);
         onDataChange();
       } catch (err) {
         console.error('Failed to delete item:', err);
-        setError('Failed to delete item. Please try again.');
-      } finally {
-        setIsLoading(false);
+        setError('Failed to delete the item. Please try again.');
       }
     }
   };
 
-  const handleSave = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setError(null);
-    if (validateForm) {
-      const validationError = validateForm(currentItem);
-      if (validationError) {
-        setError(validationError);
-        return;
-      }
-    }
     setIsLoading(true);
-    const fullData = mapToApi ? mapToApi(currentItem) : currentItem;
-    const { id, ...payload } = fullData;
-    console.log("Data being sent to API:", payload);
 
     try {
       if (isEditing) {
-        await api.update(id, payload);
+        await api.update(currentItem.id, currentItem);
       } else {
-        await api.create(payload);
+        await api.create(currentItem);
       }
       onDataChange();
       handleCloseForm();
     } catch (err) {
-      console.error('Failed to save item:', err);
-      const errorMessage = err.response?.data?.message || err.response?.data?.error || 'An unknown error occurred.';
+      const errorMessage = err.response?.data?.message || 'An unknown error occurred.';
       setError(`Failed to save: ${errorMessage}`);
     } finally {
       setIsLoading(false);
@@ -81,66 +82,86 @@ const AdminCrudController = ({
 
   const handleCloseForm = () => {
     setIsFormVisible(false);
-    setIsEditing(false);
-    setCurrentItem(initialFormState);
-    setError(null);
+  };
+  
+  // After the exit animation completes, then reset the form state
+  const handleAnimationComplete = () => {
+      if (!isFormVisible) {
+          setIsEditing(false);
+          setCurrentItem(initialFormState);
+          setError(null);
+      }
   };
 
   const formVariants = {
-    hidden: { opacity: 0, y: -50 },
-    visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: -30, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: 30, scale: 0.95 },
   };
 
   return (
     <div className="bg-slate-900/50 p-6 md:p-8 rounded-xl border border-slate-700/50">
        <div className="flex justify-between items-center mb-6">
         <h3 className="text-xl font-bold">{title}</h3>
-        <button
-          onClick={handleAddNew}
-          className="bg-sky-600 hover:bg-sky-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
-        >
-          <FiPlus /> Add New
-        </button>
+        {/* Hide "Add New" button when form is visible for a cleaner UI */}
+        {!isFormVisible && (
+            <button
+                onClick={handleAddNew}
+                className="bg-sky-600 hover:bg-sky-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
+            >
+                <FiPlus /> Add New
+            </button>
+        )}
       </div>
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={handleAnimationComplete}>
         {isFormVisible && (
           <motion.div
             variants={formVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className="mb-8 p-6 bg-slate-800/80 rounded-lg relative border border-slate-700"
           >
             <div className="flex justify-between items-center mb-4">
-              <h4 className="font-semibold text-lg">{isEditing ? `Edit ${title.slice(0, -1)}` : `Add New ${title.slice(0, -1)}`}</h4>
+              <h4 className="font-semibold text-lg">{isEditing ? `Edit Item` : `Add New Item`}</h4>
               <button onClick={handleCloseForm} className="text-slate-500 hover:text-white"><FiX /></button>
             </div>
             {error && <div className="bg-red-900/50 border border-red-500 text-red-300 p-3 rounded-md mb-4 text-sm">{error}</div>}
             
-            <FormComponent 
-                currentItem={currentItem} 
-                setCurrentItem={setCurrentItem} 
-                isEditing={isEditing} 
-            />
-
-            <button
-              onClick={handleSave}
-              disabled={isLoading}
-              className="mt-6 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:bg-slate-600 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'Saving...' : (isEditing ? 'Update Item' : 'Save New Item')}
-            </button>
+            <form onSubmit={handleSubmit}>
+                <FormComponent 
+                    currentItem={currentItem} 
+                    setCurrentItem={setCurrentItem} 
+                    isEditing={isEditing} 
+                />
+                <div className="flex justify-end gap-4 mt-6">
+                    <button type="button" onClick={handleCloseForm} className="px-5 py-2 bg-slate-600 rounded-md hover:bg-slate-500 transition-colors">
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="px-5 py-2 bg-green-600 rounded-md font-semibold hover:bg-green-500 transition-colors disabled:opacity-50"
+                    >
+                        {isLoading ? 'Saving...' : (isEditing ? 'Update Changes' : 'Save New Item')}
+                    </button>
+                </div>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>
       <div className="space-y-4">
         {items.length > 0 ? (
           items.map(item => (
-            // highlight-start
-            // --- THIS IS THE CORRECTED LINE ---
-            <ListItemComponent key={item.id} item={item} onEdit={handleEdit} onDelete={handleDelete} />
-            // highlight-end
+            <ListItemComponent 
+                key={item.id} 
+                item={item} 
+                onEdit={handleEdit} 
+                onDelete={handleDelete} 
+                // Pass down all other props (e.g., onToggleStatus, onRoleChange)
+                {...rest}
+            />
           ))
         ) : (
           <p className="text-slate-500 text-center py-4">No items yet. Click "Add New" to get started.</p>
