@@ -2,6 +2,7 @@
 import React, { useRef } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue, useTransform } from 'framer-motion';
+import LazyImage from '../common/LazyImage';
 
 const ImageCard = ({ image, onClick, className, ...props }) => {
     const cardRef = useRef(null);
@@ -45,13 +46,13 @@ const ImageCard = ({ image, onClick, className, ...props }) => {
             }}
             className={`group relative w-64 h-96 md:w-72 md:h-[450px] flex-shrink-0 rounded-2xl overflow-hidden shadow-2xl bg-neutral-900 ${className}`}
         >
-            <motion.img
+            <LazyImage
                 src={image.src}
                 alt={image.title}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover z-0"
-                style={{ transform: "translateZ(-10px) scale(1.15)" }}
+                className="absolute inset-0 w-full h-full z-0"
+                style={{ 
+                    transform: "translateZ(-10px) scale(1.15)"
+                }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
             <div className="absolute bottom-0 left-0 p-6 z-20 text-shadow">

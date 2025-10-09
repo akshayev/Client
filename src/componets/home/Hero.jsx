@@ -150,6 +150,12 @@ const Hero = () => {
             data-critical="true"
             onLoad={() => setIsImageLoaded(true)}
             className={`w-full h-full object-cover transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            sizes="100vw"
+            style={{
+              filter: isImageLoaded ? 'none' : 'blur(10px)',
+              transform: isImageLoaded ? 'scale(1)' : 'scale(1.1)',
+              transition: 'all 0.5s ease-in-out'
+            }}
           />
            {!isImageLoaded && (
              <div className="absolute inset-0 bg-neutral-900">
