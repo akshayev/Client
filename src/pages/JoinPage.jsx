@@ -39,7 +39,6 @@ const JoinPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormStatus('submitting');
-    console.log('Form Submitted:', formData);
     // Simulate API call
     setTimeout(() => {
       setFormStatus('success');

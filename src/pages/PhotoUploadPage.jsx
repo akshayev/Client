@@ -55,7 +55,6 @@ const PhotoUploadPage = () => {
     setUploadStatus('uploading');
     setErrorMessage('');
 
-    console.log("--- SIMULATING UPLOAD ---", { file, ...formData });
 
     setTimeout(() => {
       setUploadStatus('success');

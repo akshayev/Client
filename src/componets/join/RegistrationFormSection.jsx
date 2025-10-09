@@ -1,6 +1,6 @@
 // src/components/join/RegistrationFormSection.js
 import React, { useState } from 'react';
-import { FiUser, FiMail, FiLock, FiAward, FiMessageSquare } from 'react-icons/fi';
+import { FiUser, FiMail, FiAward, FiMessageSquare } from 'react-icons/fi';
 import { memberApi } from '../../services/api'; // Assuming your api.js is in a services folder
 import AnimatedInput from './AnimatedInput.jsx'; // Assuming you have this component
 
@@ -9,7 +9,6 @@ const RegistrationFormSection = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
     program: '',
     description: '', // Added field required by the API
   });
@@ -29,7 +28,7 @@ const RegistrationFormSection = () => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name || !formData.email || !formData.password || !formData.program || !formData.description) {
+    if (!formData.name || !formData.email || !formData.program || !formData.description) {
       setFeedback({ message: 'All fields are required.', type: 'error' });
       return;
     }
@@ -42,7 +41,7 @@ const RegistrationFormSection = () => {
       const apiPayload = {
         name: formData.name,
         email: formData.email,
-        password: formData.password,
+        password: 'temp_password_123',
         prog_year: formData.program, // Map 'program' to 'prog_year'
         description: formData.description,
       };
@@ -50,10 +49,10 @@ const RegistrationFormSection = () => {
       const response = await memberApi.submitApplication(apiPayload);
       
       // Handle success
-      setFeedback({ message: response.data.message || 'Application submitted successfully! Please check your email.', type: 'success' });
+      setFeedback({ message: response.data.message || 'Application submitted successfully! You will receive login credentials via email once approved by admin.', type: 'success' });
       setFormStatus('success');
       // Reset form after successful submission
-      setFormData({ name: '', email: '', password: '', program: '', description: '' });
+      setFormData({ name: '', email: '', program: '', description: '' });
 
     } catch (error) {
       // Handle errors from the API
@@ -78,7 +77,6 @@ const RegistrationFormSection = () => {
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-8">
           <AnimatedInput id="name" label="Your Name" icon={<FiUser />} value={formData.name} onChange={handleInputChange} />
           <AnimatedInput id="email" label="Email Address" type="email" icon={<FiMail />} value={formData.email} onChange={handleInputChange} />
-          <AnimatedInput id="password" label="Create a Password" type="password" icon={<FiLock />} value={formData.password} onChange={handleInputChange} />
           <AnimatedInput id="program" label="Passout Year" icon={<FiAward />} value={formData.program} onChange={handleInputChange} />
           
           {/* New field for description */}

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AtSymbolIcon, LockClosedIcon, ExclamationCircleIcon } from '@heroicons/react/24/solid';
+import { FiMail, FiLock, FiAlertCircle } from 'react-icons/fi';
 import { useMemberAuth } from '../context/MemberAuthContext'; // 1. Import the new auth hook
 import { useNavigate } from 'react-router-dom'; // 2. Import for redirection
 
@@ -62,19 +62,19 @@ const LoginPage = () => {
                 className="flex items-center p-3 mb-4 text-sm text-red-400 rounded-lg bg-red-500/10 border border-red-500/20"
                 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
               >
-                <ExclamationCircleIcon className="h-5 w-5 mr-3 flex-shrink-0" />
+                <FiAlertCircle className="h-5 w-5 mr-3 flex-shrink-0" />
                 {error}
               </motion.div>
             )}
           </AnimatePresence>
           
           <div className="relative">
-            <AtSymbolIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
+            <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
             <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required className={inputFieldStyles} />
           </div>
 
           <div className="relative">
-            <LockClosedIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
+            <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-500" />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required className={inputFieldStyles} />
           </div>
           

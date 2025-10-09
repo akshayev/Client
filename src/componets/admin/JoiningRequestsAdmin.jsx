@@ -13,7 +13,7 @@ const ActionModal = ({ isOpen, onClose, onSubmit, title, action, isLoading }) =>
                 <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="w-full max-w-lg bg-slate-800 rounded-xl border border-slate-700 p-6">
                     <h3 className={`text-xl font-bold mb-4 ${action === 'approve' ? 'text-green-400' : 'text-red-400'}`}>{title}</h3>
                     <form onSubmit={onSubmit}>
-                        <textarea name="adminNotes" rows="4" required placeholder="Add a note for the applicant..." className="w-full bg-slate-700 rounded-md p-2 text-white placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:outline-none"></textarea>
+                        <textarea name="adminNotes" rows="4" placeholder="Add a note for the applicant (optional)..." className="w-full bg-slate-700 rounded-md p-2 text-white placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:outline-none"></textarea>
                         <div className="flex justify-end gap-4 mt-6">
                             <button type="button" onClick={onClose} className="px-4 py-2 bg-slate-600 rounded-md hover:bg-slate-500 transition-colors">Cancel</button>
                             <button type="submit" disabled={isLoading} className={`px-4 py-2 font-semibold rounded-md transition-colors disabled:opacity-50 ${action === 'approve' ? 'bg-green-600 hover:bg-green-500' : 'bg-red-600 hover:bg-red-500'}`}>{isLoading ? 'Processing...' : `Confirm ${action}`}</button>
@@ -72,22 +72,21 @@ const JoiningRequestsAdmin = () => {
     const handleModalSubmit = async (e) => {
         e.preventDefault();
         const { request, action } = modalInfo;
-        const adminNotes = e.target.adminNotes.value;
+        const adminNotes = e.target.adminNotes.value.trim() || null;
         
         setIsSubmitting(true);
         try {
             // highlight-start
             // --- FIX 2: Use `req_id` for the API calls, not `id` ---
             if (action === 'approve') {
-                await memberApplicationsApi.approve(request.req_id, { adminNotes });
+                await memberApplicationsApi.approve(request.req_id, adminNotes);
             } else if (action === 'reject') {
-                await memberApplicationsApi.reject(request.req_id, { adminNotes });
+                await memberApplicationsApi.reject(request.req_id, adminNotes);
             }
             // highlight-end
             setModalInfo({ isOpen: false, request: null, action: '' });
             fetchRequests(); // Refresh the list
         } catch (err) {
-            console.error(`Failed to ${action} application:`, err);
             alert(`Failed to ${action} application. Please try again.`);
         } finally {
             setIsSubmitting(false);
