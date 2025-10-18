@@ -21,7 +21,7 @@ function Home() {
             <AboutSection />
               {/* 2. Add the Halloween Contest section here */}
             <EventTeaser />
-            <OnamBanner />
+            {/* <OnamBanner /> */}
             <Gallery />
             <Event />
             <Team />
