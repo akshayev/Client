@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Lightbox from './Lightbox';
+import { fetchPastGloriesData } from '../../data/pastGloriesApi';
 
-const PastGlories = ({ pastGloriesData }) => {
-  const [lightboxImage, setLightboxImage] = React.useState(null);
+const PastGlories = () => {
+  const [pastGloriesData, setPastGloriesData] = useState(null);
+  const [lightboxImage, setLightboxImage] = useState(null);
+
+  useEffect(() => {
+    // Fetch the data when the component mounts
+    const loadData = async () => {
+      const data = await fetchPastGloriesData();
+      setPastGloriesData(data);
+    };
+
+    loadData();
+  }, []); // The empty dependency array ensures this runs only once
 
   // If data hasn't loaded yet, don't render the section.
   if (!pastGloriesData || !pastGloriesData.images) {
-    return null;
+    // Optionally, you could return a loading spinner here
+    return null; 
   }
 
   return (
@@ -17,7 +30,7 @@ const PastGlories = ({ pastGloriesData }) => {
           <div className="relative w-full h-[150vh] md:h-[110vh] mb-16">
             {pastGloriesData.images.map((image, index) => (
               <img
-                key={index}
+                key={image.src} // Using a unique value like image.src is better for keys
                 src={image.src}
                 alt={`Past glory entry ${index + 1}`}
                 className="absolute border-4 border-white shadow-lg cursor-pointer transition-transform duration-300 ease-in-out hover:scale-105 hover:!rotate-0 hover:!z-20"
